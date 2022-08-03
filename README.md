@@ -2,7 +2,7 @@ Command-line tools written in [Gauche](https://practical-scheme.net/gauche/index
 which I actually use but by the same token it's a random assortment.
 
 Install Gauche (it's also possible to build these as standalone executables),
-add these files to your PATH,
+add this directory to your PATH, and you can invoke, for example
 
 files.scm -t swift
 
