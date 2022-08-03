@@ -12,3 +12,5 @@ which will count the number of .swift files in the current directory and below.
 - json.scm - checks valid json in each file
 - lines.scm - counts lines in each file
 - size.scm - total of the file sizes
+
+Use the -h option to print help for each command.
