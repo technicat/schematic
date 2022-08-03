@@ -1,20 +1,14 @@
-Command-line tools written in [Gauche](https://practical-scheme.net/gauche/index.html), just started and this is what I've got so far:
+Command-line tools written in [Gauche](https://practical-scheme.net/gauche/index.html),
+which I actually use but by the same token it's a random assortment.
 
-Install Gauche, add these files to your PATH, and you can invoke, for example,
+Install Gauche (it's also possible to build these as standalone executables),
+add these files to your PATH,
 
 files.scm -t swift
 
-will count all the .swift files in the current directory and below
+which will count the number of .swift files in the current directory and below.
 
-lines.scm -t dart
-
-will count all the lines in .dart files
-
-size.scm
-
-will sum up the size of all the files (ignoring hidden directories)
-
-json.scm
-
-will validate all the .json files
-
+- files.scm - counts files
+- json.scm - checks valid json in each file
+- lines.scm - counts lines in each file
+- size.scm - total of the file sizes
