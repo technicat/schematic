@@ -3,6 +3,7 @@
 (include "utils.scm")
 
 ; todo - check for urls that need urlencoding
+; todo - make a general version of this that takes a regexp
 
 (define (main args)
   (let-args (cdr args)
