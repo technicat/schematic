@@ -24,19 +24,19 @@
         (let ((count 
             (if f
                 (count-file f urlre)
-                (count-current-directory t))))
+                (count-current-directory urlre t))))
             (print #"Found ~count links")))))
 
 (define count-current-directory
-    (lambda (type)
-        (count-directory (current-directory) type)))
+    (lambda (re type)
+        (count-directory (current-directory) re type)))
 
 (define count-directory
-    (lambda (path type) 
+    (lambda (path re type) 
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (count-file file urlre)))
+                    (count-file file re)))
             0
             :lister
             (lambda (dir seed)
