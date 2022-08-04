@@ -24,7 +24,7 @@
             (print "links.scm -t scm"))
         (let ((count 
             (if f
-                (call-with-input-file f count-input)
+                (count-file f)
                 (count-current-directory t))))
             (print #"Found ~count links")))))
 
@@ -37,24 +37,30 @@
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (call-with-input-file file count-input)))
+                    (count-file file)))
             0
             :lister
             (lambda (dir seed)
                 (values (filter-dir dir type)
                     seed)))))
 
-; https://urlregex.com/
+(define count-file
+    (lambda (file)
+        (print file)
+        (call-with-input-file file count-input)))
+
 
 (define count-input
     (lambda (p)
-        (let f ((total 0))
+        (let f ((total 0) (linenum 0))
             (guard (e (else total)) ; bail out of binary
                 (let ((line (read-line p)))
                 (if (eof-object? line)
                     total
+                    ; https://urlregex.com/
                     (let ((match (rxmatch->string #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ line)))
                         (if match
-                            (begin (print match)
-                            (f (+ 1 total)))
-                            (f total)))))))))
+                            (begin 
+                                (print #"line ~linenum : ~match")
+                                (f (+ 1 total) (+ 1 linenum)))
+                            (f total (+ 1 linenum))))))))))
