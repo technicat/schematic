@@ -30,7 +30,6 @@
                 (let ((line (read-line p)))
                 (if (eof-object? line)
                     total
-                    ; https://urlregex.com/
                     (let ((match (rxmatch->string re line)))
                         (if match
                             (begin 
