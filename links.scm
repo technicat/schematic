@@ -23,35 +23,37 @@
             (print "links.scm -t scm"))
         (let ((count 
             (if f
-                (count-file f urlre)
+                (rx-file f urlre)
                 (count-current-directory urlre t))))
             (print #"Found ~count links")))))
 
 (define count-current-directory
     (lambda (re type)
-        (count-directory (current-directory) re type)))
+        (rx-dir (current-directory) re type)))
 
-(define count-directory
+; todo - move this to a shared file
+
+(define rx-dir
     (lambda (path re type) 
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (count-file file re)))
+                    (rx-file file re)))
             0
             :lister
             (lambda (dir seed)
                 (values (filter-dir dir type)
                     seed)))))
 
-(define count-file
+(define rx-file
     (lambda (file re)
         (print file)
         (call-with-input-file file
             (lambda (p)
-                (count-input p re)))))
+                (rx-input p re)))))
 
 
-(define count-input
+(define rx-input
     (lambda (p re)
         (let f ((total 0) (linenum 1))
             (guard (e (else total)) ; bail out of binary
