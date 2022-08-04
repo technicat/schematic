@@ -48,7 +48,7 @@
                 (let ((line (read-line p)))
                 (if (eof-object? line)
                     total
-                    (let ((match (rxmatch "http" line)))
+                    (let ((match (rxmatch->string #/"https?:\/\/?\/+"/ line)))
                         (if match
                             (begin (print match)
                             (f (+ 1 total)))
