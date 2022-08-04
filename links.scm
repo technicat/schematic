@@ -23,7 +23,7 @@
             (print "links.scm -t scm"))
         (let ((count 
             (if f
-                (count-file f)
+                (count-file f urlre)
                 (count-current-directory t))))
             (print #"Found ~count links")))))
 
@@ -36,7 +36,7 @@
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (count-file file)))
+                    (count-file file urlre)))
             0
             :lister
             (lambda (dir seed)
@@ -44,11 +44,11 @@
                     seed)))))
 
 (define count-file
-    (lambda (file)
+    (lambda (file re)
         (print file)
         (call-with-input-file file
             (lambda (p)
-                (count-input p urlre)))))
+                (count-input p re)))))
 
 
 (define count-input
