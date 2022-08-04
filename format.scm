@@ -4,6 +4,8 @@
 
 (use gauche.parseopt) ; command line args
 
+(include "lib/dir.scm")
+
 (define (main args)
   (let-args (cdr args)
       ((f "f|file=s")

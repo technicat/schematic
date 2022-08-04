@@ -2,7 +2,7 @@
 
 (use gauche.parseopt)
 
-(include "dir.scm")
+(include "lib/dir.scm")
 
 (define (main args)
   (let-args (cdr args)
