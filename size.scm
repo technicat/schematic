@@ -1,5 +1,7 @@
 #!/usr/local/bin/gosh
 
+(use gauche.parseopt)
+
 (include "dir.scm")
 
 (define (main args)
