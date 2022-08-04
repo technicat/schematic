@@ -1,6 +1,6 @@
 #!/usr/local/bin/gosh
 
-(include "utils.scm")
+(include "dir.scm")
 
 (use rfc.json)
 
