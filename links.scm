@@ -29,7 +29,7 @@
             (print "links.scm -t scm"))
         (let ((count 
             (if f
-                (rx-file f urlre p)
-                (rx-current-directory urlre t p))))
+                (rx-file f urlre :print-line p)
+                (rx-current-directory urlre :type t :print-line p))))
             (print #"Found ~count links")))))
 

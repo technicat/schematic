@@ -11,7 +11,7 @@
         (f "f|file=s")
         (t "t|type=s")
         (r "r|regexp=s")
-        (m "p|printline")
+        (p "p|printline")
        . restargs
       )
     (if h
@@ -26,7 +26,7 @@
             (print "search.scm -t scm"))
         (let ((count 
             (if f
-                (rx-file f r m)
-                (rx-current-directory r t printline))))
+                (rx-file f r :print-line p)
+                (rx-current-directory r :type t :print-line p))))
             (print #"Found ~count matches")))))
 
