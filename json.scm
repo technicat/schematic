@@ -40,7 +40,7 @@
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir "json")
+                (values (filter-dir dir :type "json")
                     seed)))))
 
 (define json-file

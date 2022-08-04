@@ -40,5 +40,5 @@
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir type)
+                (values (filter-dir dir :type type)
                     seed)))))

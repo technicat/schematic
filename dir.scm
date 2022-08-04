@@ -1,18 +1,19 @@
 (use file.util)
 
-; todo - make type a list of types, and make ignore hidden files an option
+; todo - make type a list
 (define ignore-file?
-    (lambda (file type)
+    (lambda (file :key (type #f) (ignore-hidden #t))
       (let-values (((dir name ext) (decompose-path file)))
-        (or (eq? (string-ref name 0) #\.) ; ignore dot files/directories
-            (and type ; check extension
+        (or (and ignore-hidden (eq? (string-ref name 0) #\.))
+            (and type
                 (file-is-regular? file) 
                 (not (equal? ext type)))))))
 
 (define filter-dir
-    (lambda (dir type)
+    (lambda (dir :key (type #f) (ignore-hidden #t))
         (remove
             (lambda (file)
-                (ignore-file? file type))
+                (ignore-file? file :type type :ignore-hidden ignore-hidden))
             (directory-list dir :add-path? #t :children? #t))))
+
 
