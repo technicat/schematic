@@ -2,6 +2,8 @@
 
 (include "utils.scm")
 
+; todo - check for urls that need urlencoding
+
 (define (main args)
   (let-args (cdr args)
       ((h "h|help")
