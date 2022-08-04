@@ -14,6 +14,7 @@
       ((h "h|help")
         (f "f|file=s")
         (t "t|type=s")
+        (p "p|printline")
        . restargs
       )
     (if h
@@ -26,10 +27,9 @@
             (print "links.scm -h")
             (print "links.scm -f countlines.scm")
             (print "links.scm -t scm"))
-        (letrec ((printmatch #t)
-            (count 
+        (let ((count 
             (if f
-                (rx-file f urlre printmatch)
-                (rx-current-directory urlre t printmatch))))
+                (rx-file f urlre p)
+                (rx-current-directory urlre t p))))
             (print #"Found ~count links")))))
 

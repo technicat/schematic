@@ -11,7 +11,7 @@
         (f "f|file=s")
         (t "t|type=s")
         (r "r|regexp=s")
-        (m "m|match")
+        (m "p|printline")
        . restargs
       )
     (if h
@@ -27,6 +27,6 @@
         (let ((count 
             (if f
                 (rx-file f r m)
-                (rx-current-directory r t m))))
+                (rx-current-directory r t printline))))
             (print #"Found ~count matches")))))
 

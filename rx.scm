@@ -1,14 +1,14 @@
 
 (define rx-current-directory
-    (lambda (re type pm)
-        (rx-dir (current-directory) re type pm)))
+    (lambda (re type :optional (print-line #f))
+        (rx-dir (current-directory) re type print-line)))
 
 (define rx-dir
-    (lambda (path re type pm) 
+    (lambda (path re type :optional (print-line #f)) 
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (rx-file file re pm)))
+                    (rx-file file re print-line)))
             0
             :lister
             (lambda (dir seed)
@@ -16,15 +16,15 @@
                     seed)))))
 
 (define rx-file
-    (lambda (file re pm)
+    (lambda (file re :optional (print-line #f))
         (print file)
         (call-with-input-file file
             (lambda (p)
-                (rx-input p re pm)))))
+                (rx-input p re print-line)))))
 
 
 (define rx-input
-    (lambda (p re pm)
+    (lambda (p re print-line)
         (let f ((total 0) (linenum 1))
             (guard (e (else total)) ; bail out of binary
                 (let ((line (read-line p)))
@@ -33,8 +33,9 @@
                     (let ((match (rxmatch->string re line)))
                         (if match
                             (begin 
-                                (if pm
+                                (if print-line
+                                    (print #"line ~linenum : ~line")
                                     (print #"line ~linenum : ~match")
-                                    (print #"line ~linenum : ~line"))
+                                    )
                                 (f (+ 1 total) (+ 1 linenum)))
                             (f total (+ 1 linenum))))))))))
