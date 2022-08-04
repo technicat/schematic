@@ -1,10 +1,10 @@
 
 (define rx-current-directory
-    (lambda (re type :optional (print-line #f))
+    (lambda (re :optional (type #f) (print-line #f))
         (rx-dir (current-directory) re type print-line)))
 
 (define rx-dir
-    (lambda (path re type :optional (print-line #f)) 
+    (lambda (path re :optional (type #f) (print-line #f)) 
         (directory-fold path
             (lambda (file result)
                 (+ result 
