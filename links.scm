@@ -2,8 +2,7 @@
 
 (include "utils.scm")
 
-; todo - check for urls that need urlencoding
-; todo - make a general version of this that takes a regexp
+(define urlre #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ )
 
 (define (main args)
   (let-args (cdr args)
@@ -47,18 +46,20 @@
 (define count-file
     (lambda (file)
         (print file)
-        (call-with-input-file file count-input)))
+        (call-with-input-file file
+            (lambda (p)
+                (count-input p urlre)))))
 
 
 (define count-input
-    (lambda (p)
-        (let f ((total 0) (linenum 0))
+    (lambda (p re)
+        (let f ((total 0) (linenum 1))
             (guard (e (else total)) ; bail out of binary
                 (let ((line (read-line p)))
                 (if (eof-object? line)
                     total
                     ; https://urlregex.com/
-                    (let ((match (rxmatch->string #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ line)))
+                    (let ((match (rxmatch->string re line)))
                         (if match
                             (begin 
                                 (print #"line ~linenum : ~match")
