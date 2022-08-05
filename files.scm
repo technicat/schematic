@@ -6,27 +6,21 @@
 
 (define (main args)
   (let-args (cdr args)
-      ((h "h|help")
+      ((h "h|help" => (cut help (car args)))
         (t "t|type=s")
        . restargs
       )
-    (if h
-        (begin
-            (print "files.scm -h -t type")
-            (print "Count number of files in current directory (and below).")
-            (print "Specify a file type (suffix) to filter.")
-            (print "Examples:")
-            (print "files.scm -h")
-            (print "files.scm -t scm")
-            (print "files.scm")
-        )
-        (let ((count 
-                (count-current-directory t)))
-            (print #"Found ~count files")))))
+    (let ((count 
+            (count-directory (current-directory) t)))
+        (print #"Found ~count files"))))
 
-(define count-current-directory
-    (lambda (type)
-        (count-directory (current-directory) type)))
+(define help
+    (lambda (file)
+        (print "Count number of files in current directory (and below).")
+        (print "Options:")
+        (print "-h : show this doc")
+        (print "-t : file extension to filter for, e.g. scm, json, swift, dart, java")
+))
 
 (define count-directory
     (lambda (path type) 
