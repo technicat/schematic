@@ -7,6 +7,7 @@
 (define (main args)
   (let-args (cdr args)
       ((h "h|help" => (cut help (car args)))
+        (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
        . restargs
@@ -15,7 +16,7 @@
         (let ((count 
             (if f
                 (call-with-input-file f count-input)
-                (count-directory (current-directory) t))))
+                (count-directory (current-directory) :type t :dot-files d))))
             (print #"Found ~count lines")))))
 
 (define help
@@ -25,7 +26,7 @@
 ))
 
 (define count-directory
-    (lambda (path type) 
+    (lambda (path :rest args) 
         (directory-fold path
             (lambda (file result)
                 (+ result 
@@ -33,7 +34,7 @@
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir :type type)
+                (values (apply filter-dir dir args)
                     seed)))))
 
 (define count-input
