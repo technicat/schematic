@@ -13,7 +13,7 @@
 
 (define (main args)
   (let-args (cdr args)
-      ((h "h|help")
+      ((h "h|help" => (cut help (car args)))
        (c "c|check")
         (d "d|dot-files")
         (f "f|file=s")
@@ -34,6 +34,11 @@
                         ;todo - should print out all the failed links here
                         (print #"Validated ~valid unique links")
                         (print #"Failed ~(- (length unique) valid) links"))))))))
+(define help
+    (lambda (file)
+        (print "Search/check URLs in file or in current directory (and below).")
+        (dir-help)
+))
 
 (define check
     (lambda (link)
