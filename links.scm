@@ -42,6 +42,7 @@
 
 (define check
     (lambda (link)
+        (print #"Validating ~link")
         (guard (e (else (print #"Could not validate ~link")
                             (print (condition-message e))
                             #f))
