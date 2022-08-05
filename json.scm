@@ -10,13 +10,13 @@
       ((h "h|help" => (cut help (car args)))
        (d "d|dot-files")
         (f "f|file=s")
-        (p "p|print")
+         (v "v|verbose")
        . restargs
       )
     (if (not h)
         (if f
             (json-file f p)
-            (let ((count (json-current-directory :print-json p)))
+            (let ((count (json-dir (current-directory) :dot-files d :verbose v)))
                 (print #"Checked ~count JSON files"))))))
 
 (define help
@@ -25,28 +25,24 @@
         (dir-help)
 ))
 
-(define json-current-directory
-    (lambda (:key (print-json #f))
-        (json-directory (current-directory) :print-json print-json)))
-
-(define json-directory
-    (lambda (path :key (print-json #f)) 
+(define json-dir
+    (lambda (path :key (dot-files #f) (verbose #f)) 
         (directory-fold path
             (lambda (file result)
-                    (json-file file :print-json print-json)
+                    (json-file file :verbose verbose)
                     (+ 1 result))
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir :type "json")
+                (values (filter-dir dir :type "json" :verbose verbose :dot-files    dot-files)
                     seed)))))
 
 (define json-file
-    (lambda (file :key (print-json #f))
+    (lambda (file :key (verbose #f))
         (guard (e (else (print #"JSON error in ~file")
                         (print (condition-message e))
                         #\f))
             (let ((exp (call-with-input-file file parse-json)))
-                (if print-json (print exp))
+                (if verbose (print exp))
                 exp))))
 

@@ -8,12 +8,14 @@
   (let-args (cdr args)
       ((h "h|help" => (cut help (car args)))
        (d "d|dot-files")
+        (v "v|verbose")
         (t "t|type=s")
        . restargs
       )
     (if (not h)
         (let ((count 
-                (count-directory (current-directory) :type t :dot-files d)))
+                (count-directory (current-directory) 
+                    :type t :dot-files d :verbose v)))
             (print #"Found ~count files")))))
 
 (define help
