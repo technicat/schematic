@@ -7,24 +7,22 @@
 
 (define (main args)
   (let-args (cdr args)
-      ((h "h|help")
+      ((h "h|help" => (cut help (car args)))
         (f "f|file=s")
         (p "p|print")
        . restargs
       )
-    (if h
-        (begin
-            (print "json.scm -h -p -f file")
-            (print "A JSON validator.")
-            (print "Specify a file, or no file to recursively check the current directory.")
-            (print "Examples:")
-            (print "json.scm -h")
-            (print "json.scm -f asset.json")
-            (print "json.scm"))
+    (if (not h)
         (if f
             (json-file f p)
             (let ((count (json-current-directory :print-json p)))
                 (print #"Checked ~count JSON files"))))))
+
+(define help
+    (lambda (file)
+        (print "Validate JSON files in current directory (and below).")
+        (dir-help)
+))
 
 (define json-current-directory
     (lambda (:key (print-json #f))
