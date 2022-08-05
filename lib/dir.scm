@@ -1,5 +1,12 @@
 (use file.util)
 
+(define options-help
+    (lambda ()
+        (print "Options:")
+        (print "-h : show this doc")
+        (print "-t : file extension to filter for, e.g. scm, json, swift, dart, java")
+))
+
 ; todo - make type a list
 (define ignore-file?
     (lambda (file :key (type #f) (ignore-hidden #t))

@@ -17,9 +17,7 @@
 (define help
     (lambda (file)
         (print "Count number of files in current directory (and below).")
-        (print "Options:")
-        (print "-h : show this doc")
-        (print "-t : file extension to filter for, e.g. scm, json, swift, dart, java")
+        (options-help)
 ))
 
 (define count-directory
