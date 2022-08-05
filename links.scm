@@ -20,16 +20,7 @@
         (p "p|printline")
        . restargs
       )
-    (if h
-        (begin 
-            (print "links.scm -h -f file -t type")
-            (print "Count/validate links in a file or files.")
-            (print "If no file specified, recursively process files in current directory.")
-            (print "Specify a file type (suffix) to filter.")
-            (print "Examples:")
-            (print "links.scm -h")
-            (print "links.scm -f countlines.scm -c")
-            (print "links.scm -t scm"))
+    (if (not h)
         (let ((matches
                 (if f
                     (rx-file f urlre :print-line p)
@@ -38,7 +29,10 @@
             (let ((unique (delete-duplicates matches)))
                 (print #"Found ~(length unique) unique links")
                 (if c 
-                    (print #"Validated ~(count check unique) unique links")))))))
+                    (let ((valid (count check unique)))
+                        ;todo - should print out all the failed links here
+                        (print #"Validated ~valid unique links")
+                        (print #"Failed ~(- (length unique) valid) links"))))))))
 
 (define check
     (lambda (link)
