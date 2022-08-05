@@ -7,7 +7,7 @@
 
 (define (main args)
   (let-args (cdr args)
-      ((h "h|help")
+      ((h "h|help" => (cut help (car args)))
        (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
@@ -15,19 +15,16 @@
         (p "p|printline")
        . restargs
       )
-    (if h
-        (begin 
-            (print "search.scm -h -f file -t type -m printmatch")
-            (print "Search regexp in a file or files.")
-            (print "If no file specified, recursively process files in current directory.")
-            (print "Specify a file type (suffix) to filter.")
-            (print "Examples:")
-            (print "search.scm -h")
-            (print "search.scm -f countlines.scm")
-            (print "search.scm -t scm"))
+    (if (not h)
         (let ((matches 
             (if f
                 (rx-file f r :print-line p)
                 (rx-current-directory r :type t :print-line p))))
             (print #"Found ~(length matches) matches")))))
+
+(define help
+    (lambda (file)
+        (print "Search for regexp in file or in current directory (and below).")
+        (dir-help)
+))
 
