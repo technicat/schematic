@@ -42,10 +42,12 @@
 
 (define check
     (lambda (link)
-        (print #"Validating ~link")
-        (guard (e (else (print #"Could not validate ~link")
+        (let ((host (uri-ref link 'host))
+                    (path (uri-ref link 'path)))
+            (print #"Connecting to host: ~host path: ~path")
+            (guard (e (else (print #"Could not validate ~link")
                             (print (condition-message e))
                             #f))
-         (let-values (((result headers body)
-                (http-get (uri-ref link 'host) (uri-ref link 'path))))
-            (equal? result "200")))))
+                (let-values (((result headers body)
+                    (http-get host path)))
+                (equal? result "200"))))))
