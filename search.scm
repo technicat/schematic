@@ -24,9 +24,9 @@
             (print "search.scm -h")
             (print "search.scm -f countlines.scm")
             (print "search.scm -t scm"))
-        (let ((count 
+        (let ((matches 
             (if f
                 (rx-file f r :print-line p)
                 (rx-current-directory r :type t :print-line p))))
-            (print #"Found ~count matches")))))
+            (print #"Found ~(length matches) matches")))))
 

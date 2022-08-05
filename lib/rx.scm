@@ -7,9 +7,10 @@
     (lambda (path re :key (type #f) (print-line #f)) 
         (directory-fold path
             (lambda (file result)
-                (+ result 
-                    (rx-file file re :print-line print-line)))
-            0
+                (cons
+                    (rx-file file re :print-line print-line)
+                    result))
+            '()
             :lister
             (lambda (dir seed)
                 (values (filter-dir dir :type type)
@@ -25,11 +26,11 @@
 
 (define rx-input
     (lambda (p re :key (print-line #f))
-        (let f ((total 0) (linenum 1))
-            (guard (e (else total)) ; bail out of binary
+        (let f ((matches '()) (linenum 1))
+            (guard (e (else matches)) ; bail out of binary
                 (let ((line (read-line p)))
                 (if (eof-object? line)
-                    total
+                    matches
                     (let ((match (rxmatch->string re line)))
                         (if match
                             (begin 
@@ -37,5 +38,5 @@
                                     (print #"line ~linenum : ~line")
                                     (print #"line ~linenum : ~match")
                                     )
-                                (f (+ 1 total) (+ 1 linenum)))
-                            (f total (+ 1 linenum))))))))))
+                                (f (cons match matches) (+ 1 linenum)))
+                            (f matches (+ 1 linenum))))))))))
