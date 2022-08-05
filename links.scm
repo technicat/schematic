@@ -23,12 +23,12 @@
     (if h
         (begin 
             (print "links.scm -h -f file -t type")
-            (print "Count links in a file or files.")
+            (print "Count/validate links in a file or files.")
             (print "If no file specified, recursively process files in current directory.")
             (print "Specify a file type (suffix) to filter.")
             (print "Examples:")
             (print "links.scm -h")
-            (print "links.scm -f countlines.scm")
+            (print "links.scm -f countlines.scm -c")
             (print "links.scm -t scm"))
         (let ((matches
                 (if f
