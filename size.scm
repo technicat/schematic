@@ -21,7 +21,7 @@
 
 (define help
     (lambda (file)
-        (print "Size of of file or files in current directory (and below).")
+        (print "Size of file or files in current directory (and below).")
         (print "-f : specify file")
         (dir-help)
 ))
