@@ -7,8 +7,8 @@
 (define (main args)
   (let-args (cdr args)
       ((h "h|help" => (cut help (car args)))
+       (d "d|dot-files")
         (f "f|file=s")
-        (d "d|dot-files")
         (t "t|type=s")
        . restargs
       )

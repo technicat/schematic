@@ -8,6 +8,7 @@
 (define (main args)
   (let-args (cdr args)
       ((h "h|help")
+       (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
         (r "r|regexp=s")

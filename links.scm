@@ -15,6 +15,7 @@
   (let-args (cdr args)
       ((h "h|help")
        (c "c|check")
+        (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
         (p "p|printline")
