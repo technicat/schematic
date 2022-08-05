@@ -7,12 +7,14 @@
 (define (main args)
   (let-args (cdr args)
       ((h "h|help" => (cut help (car args)))
+       (d "d|dot-files")
         (t "t|type=s")
        . restargs
       )
-    (let ((count 
-            (count-directory (current-directory) :type t)))
-        (print #"Found ~count files"))))
+    (if (not h)
+        (let ((count 
+                (count-directory (current-directory) :type t :dot-files d)))
+            (print #"Found ~count files")))))
 
 (define help
     (lambda (file)

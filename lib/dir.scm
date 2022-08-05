@@ -2,25 +2,26 @@
 
 (define dir-help
     (lambda ()
-        (print "Options:")
         (print "-h : show this doc")
         (print "-t : file extension to filter for, e.g. scm, json, swift, dart, java")
 ))
 
 ; todo - make type a list
 (define ignore-file?
-    (lambda (file :key (type #f) (ignore-hidden #t))
-      (let-values (((dir name ext) (decompose-path file)))
-        (or (and ignore-hidden (eq? (string-ref name 0) #\.))
-            (and type
+    (lambda (file :key (type #f) (dot-files #f))
+        (or (and type
                 (file-is-regular? file) 
-                (not (equal? ext type)))))))
+                (not (equal? ext type)))
+            (and (not dot-files)
+                (let-values (((dir name ext) (decompose-path file)))
+                 (eq? (string-ref name 0) #\.))
+                ))))
 
 (define filter-dir
-    (lambda (dir :key (type #f) (ignore-hidden #t))
+    (lambda (dir :rest args)
         (remove
             (lambda (file)
-                (ignore-file? file :type type :ignore-hidden ignore-hidden))
+                (apply ignore-file? file args))
             (directory-list dir :add-path? #t :children? #t))))
 
 
