@@ -4,7 +4,8 @@
     (lambda ()
         (print "-h : show this doc")
         (print "-d : process dot (hidden) files")
-        (print "-t : file extension to filter for, e.g. scm, json, swift, dart, java")
+        (print "-t : file extension to filter for, e.g. scm, json...")
+        (print "-v : print progress")
 ))
 
 ; todo - make type a list
