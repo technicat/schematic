@@ -36,8 +36,7 @@
                     (rx-current-directory urlre :type t :print-line p))))
             (print #"Found ~(length matches) links")
             (if c 
-                (let ((valid (filter-map check matches)))
-                    (print #"Validated ~(length valid) links")))))))
+                (print #"Validated ~(count check matches) links"))))))
 
 (define check
     (lambda (link)
