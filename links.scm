@@ -1,6 +1,7 @@
 #!/usr/local/bin/gosh
 
 (use gauche.parseopt)
+(use rfc.http)
 
 (include "lib/dir.scm")
 (include "lib/rx.scm")
@@ -12,6 +13,7 @@
 (define (main args)
   (let-args (cdr args)
       ((h "h|help")
+       (c "c|check")
         (f "f|file=s")
         (t "t|type=s")
         (p "p|printline")
@@ -31,5 +33,13 @@
             (if f
                 (rx-file f urlre :print-line p)
                 (rx-current-directory urlre :type t :print-line p))))
-            (print #"Found ~(length matches) links")))))
+            (print #"Found ~(length matches) links")
+            (if c 
+                (let ((checks (map check matches)))
+                (print #"Validated ~(length checks) links")))))))
+
+(define check
+    (lambda (link)
+        #t)
+)
 
