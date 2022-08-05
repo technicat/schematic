@@ -6,30 +6,23 @@
 
 (define (main args)
   (let-args (cdr args)
-      ((h "h|help")
+      ((h "h|help" => (cut help (car args)))
         (f "f|file=s")
         (t "t|type=s")
        . restargs
       )
-    (if h
-        (begin 
-            (print "lines.scm -h -f file -t type")
-            (print "Count lines in a file or files.")
-            (print "If no file specified, recursively process files in current directory.")
-            (print "Specify a file type (suffix) to filter.")
-            (print "Examples:")
-            (print "lines.scm -h")
-            (print "lines.scm -f countlines.scm")
-            (print "lines.scm -t scm"))
+    (if (not h)
         (let ((count 
             (if f
                 (call-with-input-file f count-input)
-                (count-current-directory t))))
+                (count-directory (current-directory) t))))
             (print #"Found ~count lines")))))
 
-(define count-current-directory
-    (lambda (type)
-        (count-directory (current-directory) type)))
+(define help
+    (lambda (file)
+        (print "Count number lines in file or current directory (and below).")
+        (dir-help)
+))
 
 (define count-directory
     (lambda (path type) 
