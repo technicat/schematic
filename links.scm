@@ -50,5 +50,6 @@
                             #f))
                 (let-values (((result headers body)
                     (http-get host path)))
-                (or (equal? result "200")
-                    (equal? result "308")))))))
+                (or (equal? result "200") ; OK
+                    (equal? result "308") ; redirect
+))))))
