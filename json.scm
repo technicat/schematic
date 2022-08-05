@@ -1,10 +1,9 @@
 #!/usr/local/bin/gosh
 
 (use gauche.parseopt)
+(use rfc.json)
 
 (include "lib/dir.scm")
-
-(use rfc.json)
 
 (define (main args)
   (let-args (cdr args)
@@ -24,18 +23,18 @@
             (print "json.scm"))
         (if f
             (json-file f p)
-            (let ((count (json-current-directory p)))
+            (let ((count (json-current-directory :print-json p)))
                 (print #"Checked ~count JSON files"))))))
 
 (define json-current-directory
-    (lambda (p)
-        (json-directory (current-directory) p)))
+    (lambda (:key (print-json #f))
+        (json-directory (current-directory) :print-json print-json)))
 
 (define json-directory
-    (lambda (path p) 
+    (lambda (path :key (print-json #f)) 
         (directory-fold path
             (lambda (file result)
-                    (json-file file p)
+                    (json-file file :print-json print-json)
                     (+ 1 result))
             0
             :lister
@@ -44,11 +43,11 @@
                     seed)))))
 
 (define json-file
-    (lambda (file p)
+    (lambda (file :key (print-json #f))
         (guard (e (else (print (string-append "JSON error in " file))
                         (print (condition-message e))
                         #\f))
             (let ((exp (call-with-input-file file parse-json)))
-                (if p (print exp))
+                (if print-json (print exp))
                 exp))))
 
