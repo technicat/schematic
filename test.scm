@@ -2,8 +2,9 @@
 
 (use gauche.test)
 
-(test-section "files")
+(load "lib/dir.scm")
+(load "lib/rx.scm")
 
-(load "files.scm")
+(test-section "files")
 
 (test-end :exit-on-failure #t)
