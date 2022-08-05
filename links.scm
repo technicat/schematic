@@ -34,9 +34,11 @@
                 (if f
                     (rx-file f urlre :print-line p)
                     (rx-current-directory urlre :type t :print-line p))))
-            (print #"Found ~(length matches) links")
-            (if c 
-                (print #"Validated ~(count check matches) links"))))))
+            (print #"Found ~(length matches) total links")
+            (let ((unique (delete-duplicates matches)))
+                (print #"Found ~(length unique) unique links")
+                (if c 
+                    (print #"Validated ~(count check unique) unique links")))))))
 
 (define check
     (lambda (link)
