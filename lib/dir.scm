@@ -1,6 +1,6 @@
 (use file.util)
 
-(define options-help
+(define dir-help
     (lambda ()
         (print "Options:")
         (print "-h : show this doc")

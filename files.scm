@@ -11,24 +11,24 @@
        . restargs
       )
     (let ((count 
-            (count-directory (current-directory) t)))
+            (count-directory (current-directory) :type t)))
         (print #"Found ~count files"))))
 
 (define help
     (lambda (file)
         (print "Count number of files in current directory (and below).")
-        (options-help)
+        (dir-help)
 ))
 
 (define count-directory
-    (lambda (path type) 
+    (lambda (path :rest args) 
         (directory-fold path
             (lambda (file result)
                 (+ result 1))
             0
             :lister
              (lambda (dir seed)
-                (values (filter-dir dir :type type)
+                (values (apply filter-dir dir args)
                     seed)))))
 
 
