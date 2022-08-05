@@ -44,7 +44,7 @@
 
 (define json-file
     (lambda (file :key (print-json #f))
-        (guard (e (else (print (string-append "JSON error in " file))
+        (guard (e (else (print #"JSON error in ~file")
                         (print (condition-message e))
                         #\f))
             (let ((exp (call-with-input-file file parse-json)))

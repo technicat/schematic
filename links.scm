@@ -2,6 +2,7 @@
 
 (use gauche.parseopt)
 (use rfc.http)
+(use rfc.uri)
 
 (include "lib/dir.scm")
 (include "lib/rx.scm")
@@ -30,16 +31,19 @@
             (print "links.scm -f countlines.scm")
             (print "links.scm -t scm"))
         (let ((matches
-            (if f
-                (rx-file f urlre :print-line p)
-                (rx-current-directory urlre :type t :print-line p))))
+                (if f
+                    (rx-file f urlre :print-line p)
+                    (rx-current-directory urlre :type t :print-line p))))
             (print #"Found ~(length matches) links")
             (if c 
-                (let ((checks (map check matches)))
-                (print #"Validated ~(length checks) links")))))))
+                (let ((valid (filter-map check matches)))
+                    (print #"Validated ~(length valid) links")))))))
 
 (define check
     (lambda (link)
-        #t)
-)
-
+        (guard (e (else (print #"Could not validate ~link")
+                            (print (condition-message e))
+                            #f))
+         (let-values (((result headers body)
+                (http-get (uri-ref link 'host) (uri-ref link 'path))))
+            (equal? result "200")))))
