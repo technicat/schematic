@@ -12,13 +12,13 @@
         (f "f|file=s")
         (t "t|type=s")
         (r "r|regexp=s")
-        (p "p|printline")
+        (v "v|verbose")
        . restargs
       )
     (if (not h)
         (let ((matches 
             (if f
-                (rx-file f r :print-line p)
+                (rx-file f r :verbose v)
                 (rx-dir (current-directory) r :type t :verbose v))))
             (print #"Found ~(length matches) matches")))))
 

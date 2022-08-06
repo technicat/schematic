@@ -9,7 +9,8 @@
             '()
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir :type type :dot-files dot-files :verbose verbose)
+                (values (filter-dir dir 
+                    :type type :dot-files dot-files :verbose verbose)
                     seed)))))
 
 (define rx-file
