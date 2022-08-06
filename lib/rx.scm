@@ -15,7 +15,7 @@
 
 (define rx-file
     (lambda (file re :key (verbose #f))
-        (print file)
+        (if verbose (print #"Searching ~file"))
         (call-with-input-file file
             (lambda (p)
                 (rx-input p re :verbose verbose)))))
@@ -32,8 +32,8 @@
                         (if match
                             (begin 
                                 (if verbose
-                                   ; (print #"line ~linenum : ~line")
-                                    (print #"line ~linenum : ~match")
+                                    (print #"line ~linenum : ~line")
+                                   ; (print #"line ~linenum : ~match")
                                     )
                                 (f (cons match matches) (+ 1 linenum)))
                             (f matches (+ 1 linenum))))))))))
