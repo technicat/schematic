@@ -2,6 +2,8 @@
 
 (use gauche.parseopt)
 (use file.filter)
+(use srfi-13)
+
 
 (include "lib/dir.scm")
 
