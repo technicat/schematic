@@ -8,6 +8,18 @@
         (print "-v : print progress")
 ))
 
+(define dir-info
+    (lambda (path :key (type #f) (dot-files #f) (verbose #f))
+        (print #"checking all files in ~path")
+        (if type
+            (print #"with extension ~type"))
+        (if dot-files
+            (print "including dot (hidden) files")
+            (print "ignoring dot (hidden) files"))
+        (if verbose
+            (print "verbose is on")
+            (print "verbose is off"))))
+
 ; todo - make type a list
 (define ignore-file?
     (lambda (file :key (type #f) (dot-files #f) (verbose #f))

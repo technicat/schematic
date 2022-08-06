@@ -26,34 +26,27 @@
         (dir-help)
 ))
 
+; todo - should return json results
 (define json-dir
-    (lambda (path :key (type "json") (dot-files #f) (verbose #f)) 
+    (lambda (path :rest args) 
+        (apply dir-info path args)
         (print #"checking all files in ~path")
-        (if type
-            (print #"with extension ~type"))
-        (if dot-files
-            (print "including dot (hidden) files")
-            (print "ignoring dot (hidden) files"))
-        (if verbose
-            (print "verbose is on")
-            (print "verbose is off"))
         (directory-fold path
             (lambda (file result)
-                    (json-file file :verbose verbose)
+                    (json-file file)
                     (+ 1 result))
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir
-                    :type "json" :verbose verbose :dot-files dot-files)
+                (values (apply filter-dir dir args)
                     seed)))))
 
 (define json-file
-    (lambda (file :key (verbose #f))
+    (lambda (file)
         (guard (e (else (print #"JSON error in ~file")
                         (print (condition-message e))
                         #\f))
             (let ((exp (call-with-input-file file parse-json)))
-                (if verbose (print exp))
+              ;  (if verbose (print exp))
                 exp))))
 
