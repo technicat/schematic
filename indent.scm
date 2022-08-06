@@ -59,19 +59,13 @@
                 (let ((line (read-line p)))
                     (if (eof-object? line)
                         #t
-                        (letrec ((new (string-trim-both line))
-                                (prev (if (null? columns)
-                                            0
-                                            (car columns)))
-                                (column 
-                                 (cond ((= 0 (string-length new))
-                                        0) ; empty string, no padding
-                                    ((eq? (string-ref new 0) #\()
-                                            (+ prev 5)) ; new paren, indent further
-                                     ((eq? (string-ref new 0) #\))
-                                            prev) ; close paren,
-                                    (else prev))))
-                            (write-string (string-pad new (+ column (string-length new))))
+                        (let ((new (string-trim-both line)))
+                            (if (> (string-length new) 0)
+                                (let ((column (if (null? columns)
+                                                0
+                                             (car columns))))
+                                    (write-string 
+                                        (string-pad new (+ column                   (string-length new))))))
                             (newline)
                             (f columns (+ 1 total))))))))
 
