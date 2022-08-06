@@ -19,7 +19,7 @@
                 (indent-file f)
                 (indent-dir (current-directory) 
                     :type t :dot-files d :verbose v))))
-            (print #"Indente4d ~count lines")))))
+            (print #"Indented ~count lines")))))
 
 (define help
     (lambda (file)
