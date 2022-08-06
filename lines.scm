@@ -16,7 +16,8 @@
         (let ((count 
             (if f
                 (call-with-input-file f count-input)
-                (count-directory (current-directory) :type t :dot-files d))))
+                (count-directory (current-directory) 
+                    :type t :dot-files d verbose v))))
             (print #"Found ~count lines")))))
 
 (define help

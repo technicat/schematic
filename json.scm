@@ -34,7 +34,8 @@
             0
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir :type "json" :verbose verbose :dot-files    dot-files)
+                (values (filter-dir dir
+                    :type "json" :verbose verbose :dot-files dot-files)
                     seed)))))
 
 (define json-file

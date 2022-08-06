@@ -19,7 +19,7 @@
         (let ((matches 
             (if f
                 (rx-file f r :print-line p)
-                (rx-dir (current-directory) r :type t :print-line p))))
+                (rx-dir (current-directory) r :type t :verbose v))))
             (print #"Found ~(length matches) matches")))))
 
 (define help

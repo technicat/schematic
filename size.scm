@@ -16,7 +16,8 @@
         (let ((count 
             (if f
                 (file-size f)
-                (size-directory (current-directory) :type t :dot-files d))))
+                (size-directory (current-directory) 
+                    :type t :dot-files d :verbose v))))
             (print #"~count bytes")))))
 
 (define help

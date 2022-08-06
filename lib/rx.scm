@@ -1,27 +1,27 @@
 
 (define rx-dir
-    (lambda (path re :key (type #f) (print-line #f)) 
+    (lambda (path re :key (type #f) (dot-files #f) (verbose #f)) 
         (directory-fold path
             (lambda (file result)
                 (append
-                    (rx-file file re :print-line print-line)
+                    (rx-file file re :verbose verbose)
                     result))
             '()
             :lister
             (lambda (dir seed)
-                (values (filter-dir dir :type type)
+                (values (filter-dir dir :type type :dot-files dot-files :verbose verbose)
                     seed)))))
 
 (define rx-file
-    (lambda (file re :key (print-line #f))
+    (lambda (file re :key (verbose #f))
         (print file)
         (call-with-input-file file
             (lambda (p)
-                (rx-input p re :print-line print-line)))))
+                (rx-input p re :verbose verbose)))))
 
 
 (define rx-input
-    (lambda (p re :key (print-line #f))
+    (lambda (p re :key (verbose #f))
         (let f ((matches '()) (linenum 1))
             (guard (e (else matches)) ; bail out of binary
                 (let ((line (read-line p)))
@@ -30,8 +30,8 @@
                     (let ((match (rxmatch->string re line)))
                         (if match
                             (begin 
-                                (if print-line
-                                    (print #"line ~linenum : ~line")
+                                (if verbose
+                                   ; (print #"line ~linenum : ~line")
                                     (print #"line ~linenum : ~match")
                                     )
                                 (f (cons match matches) (+ 1 linenum)))

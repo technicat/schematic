@@ -18,21 +18,22 @@
         (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
-        (p "p|printline")
+        (v "v|verbose")
        . restargs
       )
     (if (not h)
         (let ((matches
                 (if f
                     (rx-file f urlre :print-line p)
-                    (rx-dir (current-directory) urlre :type t :dot-files d :print-line p))))
-            (print #"Found ~(length matches) total links")
+                    (rx-dir (current-directory) urlre 
+                        :type t :dot-files d :verbose v))))
+            (if v (print #"Found ~(length matches) total links"))
             (let ((unique (delete-duplicates matches)))
                 (print #"Found ~(length unique) unique links")
                 (if c 
                     (let ((valid (count check unique)))
                         ;todo - should print out all the failed links here
-                        (print #"Validated ~valid unique links")
+                        (if v (print #"Validated ~valid unique links"))
                         (print #"Failed ~(- (length unique) valid) links"))))))))
 (define help
     (lambda (file)
@@ -41,7 +42,7 @@
 ))
 
 (define check
-    (lambda (link)
+    (lambda (link :key (verbose #f))
         (let ((host (uri-ref link 'host))
                     (path (uri-ref link 'path)))
             (print #"Connecting to host: ~host path: ~path")
