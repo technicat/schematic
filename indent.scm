@@ -68,7 +68,7 @@
                                      ((eq? (string-ref new 0) #\))
                                             0)
                                     (else 0))))
-                            (write-string (string-pad new (string-length new)))
+                            (write-string (string-pad new (+ column (string-length new))))
                             (newline)
                             ; starts with ( - indent more, push column
                              ; starts with ) - pop column
