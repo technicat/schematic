@@ -1,5 +1,8 @@
+; support functions for file processing
+
 (use file.util)
 
+; todo - add follow-symlinks option
 (define dir-help
     (lambda ()
         (print "-h : show this doc")
