@@ -1,6 +1,7 @@
 #!/usr/local/bin/gosh
 
 (use gauche.parseopt)
+(use file.filter)
 
 (include "lib/dir.scm")
 
@@ -42,16 +43,18 @@
 
 (define indent-file
     (lambda (file)
-        (call-with-input-file file indent-input)
+        ;(call-with-input-file file indent-input)
+        (file-filter indent-input :input file)
     ))
 
 (define indent-input
-    (lambda (p)
+    (lambda (p out)
         (let f ((columns '()) (total 0))
-            (guard (e (else total)) ; bail out of binary
-             (if (eof-object? (read-line p))
-                total
-                ; starts with ( - indent more, push column
-                ; starts with ) - pop column
-                ; indent line
-                (f column (+ 1 total)))))))
+            (guard (e (else total)) ; bail out of binary, return false?
+                (let ((line (read-line p)))
+                    (if (eof-object? line)
+                        total
+                    ; starts with ( - indent more, push column
+                    ; starts with ) - pop column
+                    ; indent line
+                        (f columns (+ 1 total))))))))
