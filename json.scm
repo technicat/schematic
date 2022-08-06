@@ -28,8 +28,15 @@
 
 (define json-dir
     (lambda (path :key (type "json") (dot-files #f) (verbose #f)) 
+        (print #"checking all files in ~path")
         (if type
-            (print #"checking all files in ~path with extension ~type"))
+            (print #"with extension ~type"))
+        (if dot-files
+            (print "including dot (hidden) files")
+            (print "ignoring dot (hidden) files"))
+        (if verbose
+            (print "verbose is on")
+            (print "verbose is off"))
         (directory-fold path
             (lambda (file result)
                     (json-file file :verbose verbose)
