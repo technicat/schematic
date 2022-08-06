@@ -16,15 +16,19 @@
 (define rx-file
     (lambda (file re :key (verbose #f))
         (if verbose (print #"Searching ~file"))
-        (call-with-input-file file
-            (lambda (p)
-                (rx-input p re :verbose verbose)))))
+        (guard (e (else
+                    (print #"Error opening ~file")
+                    (print (condition-message e))
+                    '()))
+            (call-with-input-file file
+             (lambda (p)
+                (rx-input p re :verbose verbose))))))
 
 
 (define rx-input
     (lambda (p re :key (verbose #f))
         (let f ((matches '()) (linenum 1))
-            (guard (e (else matches)) ; bail out of binary
+            (guard (e (else matches)) ; bail out of binary - todo: verbose
                 (let ((line (read-line p)))
                 (if (eof-object? line)
                     matches
