@@ -1,6 +1,7 @@
 #!/usr/local/bin/gosh
 
 ; messing around with formatting
+; not sure where this is going
 
 (use gauche.parseopt) ; command line args
 
