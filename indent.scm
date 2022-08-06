@@ -54,7 +54,10 @@
                 (let ((line (read-line p)))
                     (if (eof-object? line)
                         total
-                    ; starts with ( - indent more, push column
-                    ; starts with ) - pop column
-                    ; indent line
-                        (f columns (+ 1 total))))))))
+                        (begin
+                            (write-string line)
+                            (newline)
+                            ; starts with ( - indent more, push column
+                             ; starts with ) - pop column
+                            ; indent line
+                            (f columns (+ 1 total)))))))))
