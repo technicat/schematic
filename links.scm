@@ -45,7 +45,9 @@
         (let ((host (uri-ref link 'host))
                     (path (uri-ref link 'path)))
             (if (not path)
-                (print #"Missing path in ~link - try adding an ending / to the host")
+                (begin
+                    (print #"Missing path in ~link - try adding an ending / to the host")
+                    #f)
                 (begin 
                     ; todo - verbose
                     (print #"Connecting to host: ~host path: ~path")
