@@ -18,7 +18,7 @@
     (lambda (file re :key (verbose #f))
         (if verbose (print #"Searching ~file"))
         (guard (e (else
-                    (print #"Error opening ~file")
+                    (print #"Error processing ~file")
                     (print (condition-message e))
                     '()))
             (call-with-input-file file
@@ -29,8 +29,7 @@
 (define rx-input
     (lambda (p re :key (verbose #f))
         (let f ((matches '()) (linenum 1))
-            (guard (e (else matches)) ; bail out of binary - todo: verbose
-                (let ((line (read-line p)))
+            (let ((line (read-line p)))
                 (if (eof-object? line)
                     matches
                     (let ((match (rxmatch->string re line)))
@@ -41,4 +40,4 @@
                                    ; (print #"line ~linenum : ~match")
                                     )
                                 (f (cons match matches) (+ 1 linenum)))
-                            (f matches (+ 1 linenum))))))))))
+                            (f matches (+ 1 linenum)))))))))
