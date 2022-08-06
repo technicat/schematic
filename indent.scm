@@ -59,10 +59,17 @@
                 (let ((line (read-line p)))
                     (if (eof-object? line)
                         total
-                        (let ((new (string-trim-both line))
-                                (column 0))
-                                (write-string (string-pad new (string-length new)))
-                                (newline)
+                        (letrec ((new (string-trim-both line))
+                                (column 
+                                 (cond ((= 0 (string-length new))
+                                        0)
+                                    ((eq? (string-ref new 0) #\()
+                                            0)
+                                     ((eq? (string-ref new 0) #\))
+                                            0)
+                                    (else 0))))
+                            (write-string (string-pad new (string-length new)))
+                            (newline)
                             ; starts with ( - indent more, push column
                              ; starts with ) - pop column
                             (f columns (+ 1 total))))))))
