@@ -10,13 +10,14 @@
       ((h "h|help" => (cut help (car args)))
        (d "d|dot-files")
         (f "f|file=s")
+          (t "t|type=s" "json")
          (v "v|verbose")
        . restargs
       )
     (if (not h)
         (if f
             (json-file f p)
-            (let ((count (json-dir (current-directory) :dot-files d :verbose v)))
+            (let ((count (json-dir (current-directory) :type t :dot-files d :verbose v)))
                 (print #"Checked ~count JSON files"))))))
 
 (define help
@@ -26,7 +27,7 @@
 ))
 
 (define json-dir
-    (lambda (path :key (dot-files #f) (verbose #f)) 
+    (lambda (path :key (type "json") (dot-files #f) (verbose #f)) 
         (directory-fold path
             (lambda (file result)
                     (json-file file :verbose verbose)
