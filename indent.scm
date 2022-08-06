@@ -44,20 +44,23 @@
 (define indent-file
     (lambda (file)
         ;(call-with-input-file file indent-input)
-        (file-filter indent-input :input file)
-    ))
+        (guard (e (else 
+                    (print #"Error processing ~file")
+                    (print (condition-message e)) ; should move this to caller
+                    0)); bail out of binary, return false?
+            (file-filter indent-input :input file)
+    )))
 
 (define indent-input
     (lambda (p out)
         (let f ((columns '()) (total 0))
-            (guard (e (else total)) ; bail out of binary, return false?
                 (let ((line (read-line p)))
                     (if (eof-object? line)
                         total
-                        (begin
-                            (write-string line)
+                        (let ((new (string-trim-both line)))
+                            (write-string new)
                             (newline)
                             ; starts with ( - indent more, push column
                              ; starts with ) - pop column
                             ; indent line
-                            (f columns (+ 1 total)))))))))
+                            (f columns (+ 1 total))))))))

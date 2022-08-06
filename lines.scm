@@ -16,7 +16,7 @@
     (if (not h)
         (let ((count 
             (if f
-                (call-with-input-file f count-input)
+                (count-file f)
                 (count-directory (current-directory) 
                     :type t :dot-files d :verbose v))))
             (print #"Found ~count lines")))))
@@ -33,12 +33,21 @@
         (directory-fold path
             (lambda (file result)
                 (+ result 
-                    (call-with-input-file file count-input)))
+                    (count-file file)))
             0
             :lister
             (lambda (dir seed)
                 (values (apply filter-dir dir args)
                     seed)))))
+
+(define count-file
+    (lambda (file)
+      (guard (e (else 
+                    (print #"Error processing ~file")
+                    (print (condition-message e))
+                    0)) ; bail out of binary
+        (call-with-input-file file count-input)
+    )))
 
 (define count-input
     (lambda (p)
