@@ -47,9 +47,11 @@
 
 (define indent-input
     (lambda (p)
-        (let f ((total 0))
+        (let f ((columns '()) (total 0))
             (guard (e (else total)) ; bail out of binary
              (if (eof-object? (read-line p))
                 total
+                ; starts with ( - indent more, push column
+                ; starts with ) - pop column
                 ; indent line
-                (f (+ 1 total)))))))
+                (f column (+ 1 total)))))))
