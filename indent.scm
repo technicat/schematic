@@ -17,12 +17,11 @@
        . restargs
       )
     (if (not h)
-        (let ((count 
-            (if f
-                (indent-file f)
-                (indent-dir (current-directory) 
-                    :type t :dot-files d :verbose v))))
-            (print #"Indented ~count lines")))))
+        (if f
+            (indent-file f)
+            (let ((files (indent-dir (current-directory) 
+                    :type t :dot-files d :verbose v)))
+                (print #"Indented ~count ~files"))))))
 
 (define help
     (lambda (file)
@@ -35,8 +34,9 @@
         (apply dir-info path args)
         (directory-fold path
             (lambda (file result)
-                (+ result 
-                    (indent-file file)))
+                (if (indent-file file)
+                    (+ 1 result)
+                    result))
             0
             :lister
             (lambda (dir seed)
@@ -49,7 +49,7 @@
         (guard (e (else 
                     (print #"Error processing ~file")
                     (print (condition-message e)) ; should move this to caller
-                    0)); bail out of binary, return false?
+                    #f)); bail out of binary, return false?
             (file-filter indent-input :input file)
     )))
 
@@ -58,18 +58,19 @@
         (let f ((columns '()) (total 0))
                 (let ((line (read-line p)))
                     (if (eof-object? line)
-                        total
+                        #t
                         (letrec ((new (string-trim-both line))
+                                (prev (if (null? columns)
+                                            0
+                                            (car columns)))
                                 (column 
                                  (cond ((= 0 (string-length new))
-                                        0)
+                                        0) ; empty string, no padding
                                     ((eq? (string-ref new 0) #\()
-                                            0)
+                                            (+ prev 5)) ; new paren, indent further
                                      ((eq? (string-ref new 0) #\))
-                                            0)
-                                    (else 0))))
+                                            prev) ; close paren,
+                                    (else prev))))
                             (write-string (string-pad new (+ column (string-length new))))
                             (newline)
-                            ; starts with ( - indent more, push column
-                             ; starts with ) - pop column
                             (f columns (+ 1 total))))))))
