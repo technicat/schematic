@@ -24,17 +24,19 @@
     (if (not h)
         (let ((matches
                 (if f
-                    (rx-file f urlre :print-line p)
+                    (rx-file f urlre :verbose v)
                     (rx-dir (current-directory) urlre 
                         :type t :dot-files d :verbose v))))
             (if v (print #"Found ~(length matches) total links"))
             (let ((unique (delete-duplicates matches)))
                 (print #"Found ~(length unique) unique links")
                 (if c 
-                    (let ((valid (count check unique)))
+                    (let ((invalid (remove check unique)))
+                        ;(valid (count check unique)))
                         ;todo - should print out all the failed links here
-                        (if v (print #"Validated ~valid unique links"))
-                        (print #"Failed ~(- (length unique) valid) links"))))))))
+                      ;  (if v (print #"Validated ~valid unique links"))
+                        (print #"Failed ~(length invalid) links")
+                        (print invalid))))))))
 (define help
     (lambda (file)
         (print "Search/check URLs in file or in current directory (and below).")
@@ -42,9 +44,10 @@
 ))
 
 (define check
-    (lambda (link :key (verbose #f))
+    (lambda (link)
         (let ((host (uri-ref link 'host))
                     (path (uri-ref link 'path)))
+            ; todo - verbose
             (print #"Connecting to host: ~host path: ~path")
             (guard (e (else (print #"Could not validate ~link")
                             (print (condition-message e))
