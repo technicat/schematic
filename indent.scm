@@ -74,3 +74,16 @@
                             (write-string (string-pad new (+ column (string-length new))))
                             (newline)
                             (f columns (+ 1 total))))))))
+
+(define indent-string
+    (lambda (s)
+     (string-for-each indent-char s)
+))
+
+(define indent-char
+    (lambda (c)
+      (cond ((eq? c #\()
+             (+ prev 5)) ; new paren, indent further
+            ((eq? c #\))
+             prev) ; close paren,
+            (else prev))))
