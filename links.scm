@@ -36,7 +36,7 @@
                         ;todo - should print out all the failed links here
                       ;  (if v (print #"Validated ~valid unique links"))
                         (print #"Failed ~(length invalid) links")
-                        (print invalid))))))))
+                        (print (string-join invalid "\n")))))))))
 (define help
     (lambda (file)
         (print "Search/check URLs in file or in current directory (and below).")
