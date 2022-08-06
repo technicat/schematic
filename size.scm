@@ -10,6 +10,7 @@
        (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
+          (v "v|verbose")
        . restargs
       )
     (if (not h)
@@ -29,6 +30,7 @@
 
 (define size-directory
     (lambda (path :rest args)
+        (apply dir-info path args)
         (directory-fold path
             (lambda (file result)
                 (+ result 

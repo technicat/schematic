@@ -10,6 +10,7 @@
         (d "d|dot-files")
         (f "f|file=s")
         (t "t|type=s")
+        (v "v|verbose")
        . restargs
       )
     (if (not h)
@@ -17,7 +18,7 @@
             (if f
                 (call-with-input-file f count-input)
                 (count-directory (current-directory) 
-                    :type t :dot-files d verbose v))))
+                    :type t :dot-files d :verbose v))))
             (print #"Found ~count lines")))))
 
 (define help
@@ -27,7 +28,8 @@
 ))
 
 (define count-directory
-    (lambda (path :rest args) 
+    (lambda (path :rest args)
+        (apply dir-info path args)
         (directory-fold path
             (lambda (file result)
                 (+ result 

@@ -1,6 +1,7 @@
 
 (define rx-dir
-    (lambda (path re :key (type #f) (dot-files #f) (verbose #f)) 
+    (lambda (path re :key (type #f) (dot-files #f) (verbose #f))
+        (dir-info path :type type :dot-files dot-files :verbose verbose)
         (directory-fold path
             (lambda (file result)
                 (append

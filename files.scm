@@ -26,6 +26,7 @@
 
 (define count-directory
     (lambda (path :rest args) 
+        (apply dir-info path args)
         (directory-fold path
             (lambda (file result)
                 (+ result 1))
