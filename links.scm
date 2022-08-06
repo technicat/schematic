@@ -32,9 +32,6 @@
                 (print #"Found ~(length unique) unique links")
                 (if c 
                     (let ((invalid (remove check unique)))
-                        ;(valid (count check unique)))
-                        ;todo - should print out all the failed links here
-                      ;  (if v (print #"Validated ~valid unique links"))
                         (print #"Failed ~(length invalid) links")
                         (print (string-join invalid "\n")))))))))
 (define help
@@ -47,13 +44,16 @@
     (lambda (link)
         (let ((host (uri-ref link 'host))
                     (path (uri-ref link 'path)))
-            ; todo - verbose
-            (print #"Connecting to host: ~host path: ~path")
-            (guard (e (else (print #"Could not validate ~link")
-                            (print (condition-message e))
-                            #f))
-                (let-values (((result headers body)
-                    (http-get host path)))
-                (or (equal? result "200") ; OK
-                    (equal? result "308") ; redirect
-))))))
+            (if (not path)
+                (print #"Missing path in ~link - try adding an ending / to the host")
+                (begin 
+                    ; todo - verbose
+                    (print #"Connecting to host: ~host path: ~path")
+                    (guard (e (else (print #"Could not validate ~link")
+                                    (print (condition-message e))
+                                     #f))
+                        (let-values (((result headers body)
+                                        (http-get host path)))
+                            (or (equal? result "200") ; OK
+                                (equal? result "308") ; redirect - todo, report this
+))))))))
