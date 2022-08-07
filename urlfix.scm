@@ -55,12 +55,15 @@
   (letrec ((term ".com.tw\"")
            (prefix (string-scan line term 'before)))
    (if (not prefix)
-    (begin (write-string line out)
+    (begin 
+    (write-string line out)
+     (newline out)
      count)
     (begin
      (write-string
       (string-append prefix term (string-scan line term 'after))
       out)
+        (newline out)
      (+1 count))))))
 
 
