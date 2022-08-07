@@ -50,7 +50,7 @@
                     (print #"Error processing ~file")
                     (print (condition-message e))
                     #f))
-            (file-filter indent-input :input file)
+            (file-filter indent-input :input file :output file :temporary-file #t)
     )))
 
 (define indent-input
