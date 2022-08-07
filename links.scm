@@ -41,8 +41,8 @@
  (lambda (unique)
   (let ((noturl (remove check-url unique)))
    (print #"Found ~(length noturl) obviously bad links")
-   (print (string-join noturl "\n"))))
- (remove (lambda (link) (not (check-url link))) unique))
+   (print (string-join noturl "\n")))
+  (remove (lambda (link) (not (check-url link))) unique)))
 
 (define check-connections
  (lambda (unique)
