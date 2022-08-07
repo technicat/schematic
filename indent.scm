@@ -77,9 +77,10 @@
                     (car columns))))
             (string-for-each 
                 (lambda (c)
+                    (set! column (+ 1 column))
                     (cond ((eq? c #\()
                         (push! columns column))
                         ((eq? c #\))
-                        (push! columns column))))
+                        (pop! columns))))
                 s)
              columns)))
