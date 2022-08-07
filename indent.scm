@@ -48,14 +48,14 @@
         ;(call-with-input-file file indent-input)
         (guard (e (else 
                     (print #"Error processing ~file")
-                    (print (condition-message e)) ; should move this to caller
-                    #f)); bail out of binary, return false?
+                    (print (condition-message e))
+                    #f))
             (file-filter indent-input :input file)
     )))
 
 (define indent-input
     (lambda (p out)
-        (let f ((columns '()) (total 0))
+        (let f ((columns '()))
                 (let ((line (read-line p)))
                     (if (eof-object? line)
                         #t
@@ -67,17 +67,19 @@
                                     (write-string 
                                         (string-pad new (+ column                   (string-length new))))))
                             (newline)
-                            (f columns (+ 1 total))))))))
+                            (f (new-columns new columns))))))))
 
-(define indent-string
-    (lambda (s)
-     (string-for-each indent-char s)
-))
-
-(define indent-char
-    (lambda (c)
-      (cond ((eq? c #\()
-             (+ prev 5)) ; new paren, indent further
-            ((eq? c #\))
-             prev) ; close paren,
-            (else prev))))
+(define new-columns
+    (lambda (s columns)
+        (let ((column
+                (if (null? columns)
+                     0
+                    (car columns))))
+            (string-for-each 
+                (lambda (c)
+                    (cond ((eq? c #\()
+                        (push! columns column))
+                        ((eq? c #\))
+                        (push! columns column))))
+                s)
+             columns)))
