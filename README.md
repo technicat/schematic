@@ -11,10 +11,12 @@ files.scm -t swift
 which will count the number of .swift files in the current directory and below.
 
 - files.scm - counts files
+- indent.scm - indents lisp files
 - json.scm - checks valid json in each file
 - links.scm - search/check links
 - lines.scm - counts lines in each file
 - search.scm - search for text (regexp)
 - size.scm - total of the file sizes
+- urlfix.scm - repairs links
 
 Use the -h option to print help for each command.

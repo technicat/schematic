@@ -1,5 +1,9 @@
 #!/usr/local/bin/gosh
 
+; fix common url issues
+; currently just repairs missing trailing slash
+; todo - urlencode
+
 (use gauche.parseopt) ; command-line
 (use file.filter) ; file-filter-fold
 (use srfi-13) ; string-scan
