@@ -57,6 +57,8 @@
         (equal? result "308") ; redirect - todo, report this
         ))))))))
 
+; place this here at the end to avoid confusing my indenter
+
 ; https://urlregex.com/
 ; doesn't handle parentheses
 (define urlre #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ )
