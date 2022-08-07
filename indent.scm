@@ -4,7 +4,6 @@
 (use file.filter) ; file-filter-fold
 (use srfi-13) ; string trim and pad
 
-
 (include "lib/dir.scm")
 
 (define (main args)
@@ -72,6 +71,7 @@
 (define new-columns
  (lambda (s columns)
   (let f ((chars (string->list s))
+          (quote? #f)
           (col (if (null? columns)
                 0
                 (car columns)))
@@ -80,19 +80,22 @@
     cols
     (case (car chars)
      ((#\()
-       (f (cdr chars) (+ 1 col) (cons (+ 1 col) cols)))
-      ((#\))
-      (f (cdr chars) (+ 1 col) (if (null? cols)
-                                cols
-                                (cdr cols))))
-     ((#\#)  ; skip ahead
-       (f (cddr chars) (+ 2 col) cols))
-      ; todo - handle trailing comment
-      ; watch out for quoted strings
-      ; handle character
-      ;     ((#\;)
-      ;       cols)
-      (else
-       (f (cdr chars) (+ 1 col) cols)))))))
+      (f (cdr chars) quote? (+ 1 col) (cons (+ 1 col) cols)))
+     ((#\))
+      (f (cdr chars) quote? (+ 1 col) (if (null? cols)
+                                       cols
+                                       (cdr cols))))
+     ((#\#)
+      (if (eqv? #\\ (cadr chars))
+       (f (cdddr chars) quote? (+ 3 col) cols)
+       (f (cdr chars) quote? (+ 1 col) cols)))
+     ((#\")
+      (f (cdr chars) (not quote?) (+ 1 col) cols))
+     ((#\;)
+      (if (not quote?)
+       cols
+       (f (cdr chars) quote? (+ 1 col) cols)))
+     (else
+      (f (cdr chars) quote? (+ 1 col) cols)))))))
 
 

@@ -35,8 +35,8 @@
     (newline)
     (spaces indent)
     (write-char #\()
-     (format-list exp (+ 1 indent))
-     (write-char #\)))
+    (format-list exp (+ 1 indent))
+    (write-char #\)))
    (write exp))))
 
 (define format-list
