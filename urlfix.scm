@@ -58,7 +58,7 @@
      (write-string line out)
      (newline out)
      count)
-    (let ((new (string-append (match 'before) (match 1) "/\"" (match 'after))))
+    (let ((new (string-append (match 'before 1) (match 1) "/" (match 'after 1))))
       (print new)
       (write-string new out)
        (newline out)
