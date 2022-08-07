@@ -1,8 +1,8 @@
 #!/usr/local/bin/gosh
 
-(use gauche.parseopt)
-(use file.filter)
-(use srfi-13)
+(use gauche.parseopt) ; command-line
+(use file.filter) ; file-filter-fold
+(use srfi-13) ; string trim and pad
 
 
 (include "lib/dir.scm")
@@ -49,32 +49,7 @@
              (print #"Error processing ~file")
              (print (condition-message e))
              #f))
-   ; (file-filter-fold indent-fold '() :input file :output file :temporary-file #t)
-   (file-filter indent-input :input file :output file :temporary-file #t)
-   )))
-
-(define indent-input
- (lambda (p out)
-  (let f ((columns '()))
-   (let ((line (read-line p)))
-    (if (eof-object? line)
-     #t
-     (let ((new (string-trim-both line)))
-      (if (> (string-length new) 0)
-       (let ((column (if (null? columns)
-                      0
-                      (car columns))))
-        (write-string
-         (string-pad new
-          (+ column
-           (string-length new)))
-         out)))
-      (newline out)
-      (if (or
-           (= (string-length new) 0)
-           (eq? (string-ref new 0) #\;))
-       (f columns)
-       (f (new-columns new columns)))))))))
+   (file-filter-fold indent-fold '() :input file :output file :temporary-file #t))))
 
 (define indent-fold
  (lambda (line columns out)
@@ -103,6 +78,7 @@
    (string-for-each
     (lambda (c)
      (set! column (+ 1 column))
+     ; todo - handle trailing comment
      (cond ((eq? c #\()
              (push! columns column))
             ((eq? c #\))
