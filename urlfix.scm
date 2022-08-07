@@ -50,7 +50,9 @@
 
 (define fix-fold
  (lambda (line count out)
-  (let ((match (rxmatch #/(\.((fr)|(tw)))"/ line)))
+  (let ((match (rxmatch 
+                #/(\.((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/ 
+                line)))
    (if (not match)
     (begin
      (write-string line out)
