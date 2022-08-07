@@ -28,7 +28,7 @@
      (print #"Found ~(length unique) unique links")
      (check-urls unique)
      (if c (check-connections unique)))))))
-     
+
 
 (define help
  (lambda (file)
@@ -45,8 +45,8 @@
 (define check-connections
  (lambda (unique)
   (let ((invalid (remove check-connection unique)))
-       (print #"Failed ~(length invalid) links")
-       (print (string-join invalid "\n")))))
+   (print #"Failed ~(length invalid) links")
+   (print (string-join invalid "\n")))))
 
 (define check-url
  (lambda (link)
