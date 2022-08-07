@@ -71,17 +71,19 @@
 
 (define new-columns
  (lambda (s columns)
-  (let ((column
-         (if (null? columns)
-          0
-          (car columns))))
-   (string-for-each
-    (lambda (c)
-     (set! column (+ 1 column))
-     ; todo - handle/ignore parentheses inside comments, strings, chars
-     (cond ((eq? c #\()
-             (push! columns column))
-            ((eq? c #\))
-            (pop! columns))))
-    s)
-   columns)))
+          (let f ((chars (string->list s))
+                    (col (if (null? columns)
+                         0
+                         (car columns))
+                         (cols columns)))
+               (if (null? chars)
+                    columns
+                    (case (car chars)
+                          ((#\()
+                              (f (cdr chars) (+ 1 col) (cons col cols)))))
+                         ((#\))
+                              (f (cdr chars) (+ 1 col) (cdr cols)))
+                              (else
+                                    (f (cdr chars) (+ 1 col) cols)))))
+
+  
