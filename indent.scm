@@ -70,9 +70,11 @@
             (string-length new)))
          out)))
       (newline out)
-      (if (eq? (string-ref new 0) #\;)
-            (f columns)
-      (f (new-columns new columns)))))))))
+      (if (or 
+            (= (string-length new) 0)
+            (eq? (string-ref new 0) #\;))
+        (f columns)
+        (f (new-columns new columns)))))))))
 
 (define indent-fold
  (lambda (line columns out)
