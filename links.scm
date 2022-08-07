@@ -26,9 +26,9 @@
     (if v (print #"Found ~(length matches) total links"))
     (let ((unique (delete-duplicates matches)))
      (print #"Found ~(length unique) unique links")
-     (if c 
-     (let ((good (check-urls unique)))
-      (check-connections good))))))))
+     (if c
+      (let ((good (check-urls unique)))
+       (check-connections good))))))))
 
 
 (define help
@@ -42,7 +42,7 @@
   (let ((noturl (remove check-url unique)))
    (print #"Found ~(length noturl) obviously bad links")
    (print (string-join noturl "\n"))))
-   (remove (lambda (link) (not (check-url link))) unique))
+ (remove (lambda (link) (not (check-url link))) unique))
 
 (define check-connections
  (lambda (unique)
@@ -84,4 +84,6 @@
 
 ; https://urlregex.com/
 ; doesn't handle parentheses
-(define urlre #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ )
+(define urlre
+ #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+                               )

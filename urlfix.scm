@@ -16,11 +16,11 @@
    . restargs
    )
   (if (not h)
-   (if f
-    (indent-file f)
-    (let ((urls (fix-dir (current-directory)
-                  :type t :dot-files d :verbose v)))
-     (print #"Fixed ~urls urls"))))))
+   (let ((urls (if f
+                (fix-file f)
+                (fix-dir (current-directory)
+                 :type t :dot-files d :verbose v))))
+    (print #"Fixed ~urls urls")))))
 
 (define help
  (lambda (file)
@@ -45,25 +45,32 @@
   (guard (e (else
              (print #"Error processing ~file")
              (print (condition-message e))
-             #f))
+             0))
    (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t))))
 
 (define fix-fold
  (lambda (line count out)
   (letrec ((iso ".fr")
-          (term (string-append iso "\""))
-          (prefix (string-scan line term 'before)))
-   (if (not prefix)
-    (begin 
-    (write-string line out)
-     (newline out)
-     count)
+           (term (string-append iso "\""))
+           (replace (string-append iso "\\\""))
+           (match (rxmatch->string term line)))
+   (if (not match)
     (begin
-     (write-string
-      (string-append prefix iso "/\"" (string-scan line term 'after))
-      out)
-        (newline out)
-     (+ 1 count))))))
+     (write-string line out)
+     (newline out)
+     0)
+    (let ((prefix (string-scan line match 'before)))
+     (if (not prefix)
+      (begin
+       (write-string line out)
+       (newline out)
+       count)
+      (begin
+       (write-string
+        (string-append prefix replace "/\"" (string-scan line term 'after))
+        out)
+       (newline out)
+       (+ 1 count))))))))
 
 
 
