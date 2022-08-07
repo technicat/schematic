@@ -78,7 +78,7 @@
    (string-for-each
     (lambda (c)
      (set! column (+ 1 column))
-     ; todo - handle trailing comment
+     ; todo - handle/ignore parentheses inside comments, strings, chars
      (cond ((eq? c #\()
              (push! columns column))
             ((eq? c #\))
