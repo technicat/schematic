@@ -85,6 +85,8 @@
       (f (cdr chars) quote? (+ 1 col) (if (null? cols)
                                        cols
                                        (cdr cols))))
+     ; doesn't handle character names
+     ; or regex
      ((#\#)
       (if (eqv? #\\ (cadr chars))
        (f (cdddr chars) quote? (+ 3 col) cols)
