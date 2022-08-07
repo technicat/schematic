@@ -36,6 +36,7 @@
   (dir-help)
   ))
 
+; todo - separate url check and connectivity check
 (define check
  (lambda (link)
   (let ((host (uri-ref link 'host))
