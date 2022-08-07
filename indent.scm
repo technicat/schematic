@@ -65,8 +65,8 @@
                                                 0
                                              (car columns))))
                                     (write-string 
-                                        (string-pad new (+ column                   (string-length new))
-                                        :oport out))))
+                                        (string-pad new (+ column                       (string-length new)))
+                                        out)))
                             (newline out)
                             (f (new-columns new columns))))))))
 
