@@ -18,9 +18,9 @@
   (if (not h)
    (if f
     (indent-file f)
-    (let ((files (indent-dir (current-directory)
+    (let ((urls (fix-dir (current-directory)
                   :type t :dot-files d :verbose v)))
-     (print #"Indented ~files files"))))))
+     (print #"Fixed ~urls urls"))))))
 
 (define help
  (lambda (file)
@@ -28,32 +28,31 @@
   (dir-help)
   ))
 
-(define indent-dir
+(define fix-dir
  (lambda (path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
-    (if (indent-file file)
-     (+ 1 result)
-     result))
+    (+ result (fix-file file)))
    0
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
      seed)))))
 
-(define indent-file
+(define fix-file
  (lambda (file)
   (guard (e (else
              (print #"Error processing ~file")
              (print (condition-message e))
              #f))
-   (file-filter-fold indent-fold 0 :input file :output file :temporary-file #t))))
+   (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t))))
 
-(define indent-fold
+(define fix-fold
  (lambda (line count out)
-  (letrec ((term ".com.tw\"")
-           (prefix (string-scan line term 'before)))
+  (letrec ((iso ".fr")
+          (term (string-append iso "\""))
+          (prefix (string-scan line term 'before)))
    (if (not prefix)
     (begin 
     (write-string line out)
@@ -61,10 +60,10 @@
      count)
     (begin
      (write-string
-      (string-append prefix term (string-scan line term 'after))
+      (string-append prefix iso "/\"" (string-scan line term 'after))
       out)
         (newline out)
-     (+1 count))))))
+     (+ 1 count))))))
 
 
 
