@@ -71,19 +71,21 @@
 
 (define new-columns
  (lambda (s columns)
-          (let f ((chars (string->list s))
-                    (col (if (null? columns)
-                         0
-                         (car columns))
-                         (cols columns)))
-               (if (null? chars)
-                    columns
-                    (case (car chars)
-                          ((#\()
-                              (f (cdr chars) (+ 1 col) (cons col cols)))))
-                         ((#\))
-                              (f (cdr chars) (+ 1 col) (cdr cols)))
-                              (else
-                                    (f (cdr chars) (+ 1 col) cols)))))
+  (let f ((chars (string->list s))
+          (col (if (null? columns)
+                0
+                (car columns)))
+          (cols columns))
+   (if (null? chars)
+    cols
+    (case (car chars)
+     ((#\()
+       (f (cdr chars) (+ 1 col) (cons (+ 1 col) cols)))
+      ((#\))
+      (f (cdr chars) (+ 1 col) (if (null? cols)
+                                cols
+                                (cdr cols))))
+     (else
+      (f (cdr chars) (+ 1 col) cols)))))))
 
-  
+
