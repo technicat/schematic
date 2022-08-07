@@ -45,12 +45,12 @@
 
 (define indent-file
  (lambda (file)
-  ;(call-with-input-file file indent-input)
   (guard (e (else
              (print #"Error processing ~file")
              (print (condition-message e))
              #f))
-   (file-filter-fold indent-fold '() :input file :output file :temporary-file #t)
+   ; (file-filter-fold indent-fold '() :input file :output file :temporary-file #t)
+   (file-filter indent-input :input file :output file :temporary-file #t)
    )))
 
 (define indent-input
@@ -70,7 +70,9 @@
             (string-length new)))
          out)))
       (newline out)
-      (f (new-columns new columns))))))))
+      (if (eq? (string-ref name 0) #\;)
+            (f columns)
+      (f (new-columns new columns)))))))))
 
 (define indent-fold
  (lambda (line columns out)
@@ -84,7 +86,9 @@
             (string-length new)))
          out)))
       (newline out)
-      (new-columns new columns))))
+      (if (eq? (string-ref name 0) #\;)
+        columns
+        (new-columns new columns)))))
 
 (define new-columns
  (lambda (s columns)
