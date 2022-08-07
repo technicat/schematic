@@ -1,5 +1,7 @@
 #!/usr/local/bin/gosh
 
+; don't really have a use for this, just here for completeness
+
 (use gauche.parseopt)
 
 (include "lib/dir.scm")
