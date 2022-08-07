@@ -50,7 +50,7 @@
              (print #"Error processing ~file")
              (print (condition-message e))
              #f))
-   (file-filter indent-input :input file :output file :temporary-file #t)
+   (file-filter-fold indent-fold '() :input file :output file :temporary-file #t)
    )))
 
 (define indent-input
@@ -65,10 +65,26 @@
                       0
                       (car columns))))
         (write-string
-         (string-pad new (+ column                       (string-length new)))
+         (string-pad new 
+            (+ column                       
+            (string-length new)))
          out)))
       (newline out)
       (f (new-columns new columns))))))))
+
+(define indent-fold
+ (lambda (line columns out)
+     (let ((new (string-trim-both line)))
+      (if (> (string-length new) 0)
+       (let ((column (if (null? columns)
+                      0
+                      (car columns))))
+        (write-string
+         (string-pad new (+ column                       
+            (string-length new)))
+         out)))
+      (newline out)
+      (new-columns new columns))))
 
 (define new-columns
  (lambda (s columns)
