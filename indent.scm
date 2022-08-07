@@ -70,7 +70,7 @@
             (string-length new)))
          out)))
       (newline out)
-      (if (eq? (string-ref name 0) #\;)
+      (if (eq? (string-ref new 0) #\;)
             (f columns)
       (f (new-columns new columns)))))))))
 
@@ -86,7 +86,7 @@
             (string-length new)))
          out)))
       (newline out)
-      (if (eq? (string-ref name 0) #\;)
+      (if (eq? (string-ref new 0) #\;)
         columns
         (new-columns new columns)))))
 
