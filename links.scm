@@ -26,18 +26,35 @@
     (if v (print #"Found ~(length matches) total links"))
     (let ((unique (delete-duplicates matches)))
      (print #"Found ~(length unique) unique links")
+       (check-urls unique)
      (if c
-      (let ((invalid (remove check unique)))
+      (let ((invalid (remove check-connection unique)))
        (print #"Failed ~(length invalid) links")
        (print (string-join invalid "\n")))))))))
+
 (define help
  (lambda (file)
   (print "Search/check URLs in file or in current directory (and below).")
   (dir-help)
   ))
 
-; todo - separate url check and connectivity check
-(define check
+(define check-urls
+       (lambda (unique)
+       (let ((noturl (remove check-url unique)))
+       (print #"Found ~(length noturl) obviously bad links")
+        (print (string-join noturl "\n")))))
+
+(define check-url
+ (lambda (link)
+  (let ((host (uri-ref link 'host))
+        (path (uri-ref link 'path)))
+(if (not host)
+     (print #"Missing host in ~link"))
+(if (not path)
+     (print #"Missing path in ~link - try adding an ending / to the host"))
+   (and host path))))
+
+(define check-connection
  (lambda (link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
