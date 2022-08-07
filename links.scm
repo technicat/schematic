@@ -27,10 +27,8 @@
     (let ((unique (delete-duplicates matches)))
      (print #"Found ~(length unique) unique links")
      (check-urls unique)
-     (if c
-      (let ((invalid (remove check-connection unique)))
-       (print #"Failed ~(length invalid) links")
-       (print (string-join invalid "\n")))))))))
+     (if c (check-connections unique)))))))
+     
 
 (define help
  (lambda (file)
@@ -43,6 +41,12 @@
   (let ((noturl (remove check-url unique)))
    (print #"Found ~(length noturl) obviously bad links")
    (print (string-join noturl "\n")))))
+
+(define check-connections
+ (lambda (unique)
+  (let ((invalid (remove check-connection unique)))
+       (print #"Failed ~(length invalid) links")
+       (print (string-join invalid "\n")))))
 
 (define check-url
  (lambda (link)
