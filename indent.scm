@@ -88,7 +88,9 @@
             (string-length new)))
          out)))
       (newline out)
-      (if (eq? (string-ref new 0) #\;)
+       (if (or 
+            (= (string-length new) 0)
+            (eq? (string-ref new 0) #\;))
         columns
         (new-columns new columns)))))
 
