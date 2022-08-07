@@ -85,7 +85,14 @@
       (f (cdr chars) (+ 1 col) (if (null? cols)
                                 cols
                                 (cdr cols))))
-     (else
-      (f (cdr chars) (+ 1 col) cols)))))))
+     ((#\#)  ; skip ahead
+       (f (cddr chars) (+ 2 col) cols))
+      ; todo - handle trailing comment
+      ; watch out for quoted strings
+      ; handle character
+      ;     ((#\;)
+      ;       cols)
+      (else
+       (f (cdr chars) (+ 1 col) cols)))))))
 
 
