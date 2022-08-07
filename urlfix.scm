@@ -50,20 +50,15 @@
 
 (define fix-fold
  (lambda (line count out)
-  (letrec ((iso ".fr") ; add tw, etc
-           (term (string-append "\\" iso "\"")) ; look for missing end slash
-           (replace (string-append iso "/\""))
-           (match (rxmatch->string term line)))
+  (let ((match (rxmatch #/(\.fr)"/ line)))
    (if (not match)
     (begin
      (write-string line out)
      (newline out)
      count)
-    (let ((prefix (string-scan line match 'before)))
-       (write-string
-        (string-append (or prefix "") replace
-          (or (string-scan line match 'after) ""))
-        out)
+    (let ((new (string-append (match 'before) (match 1) "/\"" (match 'after))))
+      (print new)
+      (write-string new out)
        (newline out)
        (+ 1 count))))))
 
