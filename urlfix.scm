@@ -53,13 +53,13 @@
 (define indent-fold
  (lambda (line count out)
   (letrec ((term ".com.tw\"")
-           (prefix (string-scan line term :before)))
+           (prefix (string-scan line term 'before)))
    (if (not prefix)
     (begin (write-string line out)
      count)
     (begin
      (write-string
-      (string-append prefix term (string-scan line term :after))
+      (string-append prefix term (string-scan line term 'after))
       out)
      (+1 count))))))
 
