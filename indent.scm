@@ -65,34 +65,34 @@
                       0
                       (car columns))))
         (write-string
-         (string-pad new 
-            (+ column                       
-            (string-length new)))
+         (string-pad new
+          (+ column
+           (string-length new)))
          out)))
       (newline out)
-      (if (or 
-            (= (string-length new) 0)
-            (eq? (string-ref new 0) #\;))
-        (f columns)
-        (f (new-columns new columns)))))))))
+      (if (or
+           (= (string-length new) 0)
+           (eq? (string-ref new 0) #\;))
+       (f columns)
+       (f (new-columns new columns)))))))))
 
 (define indent-fold
  (lambda (line columns out)
-     (let ((new (string-trim-both line)))
-      (if (> (string-length new) 0)
-       (let ((column (if (null? columns)
-                      0
-                      (car columns))))
-        (write-string
-         (string-pad new (+ column                       
-            (string-length new)))
-         out)))
-      (newline out)
-       (if (or 
-            (= (string-length new) 0)
-            (eq? (string-ref new 0) #\;))
-        columns
-        (new-columns new columns)))))
+  (let ((new (string-trim-both line)))
+   (if (> (string-length new) 0)
+    (let ((column (if (null? columns)
+                   0
+                   (car columns))))
+     (write-string
+      (string-pad new (+ column
+                       (string-length new)))
+      out)))
+   (newline out)
+   (if (or
+        (= (string-length new) 0)
+        (eq? (string-ref new 0) #\;))
+    columns
+    (new-columns new columns)))))
 
 (define new-columns
  (lambda (s columns)
