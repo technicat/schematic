@@ -71,7 +71,6 @@
 (define new-columns
  (lambda (s columns)
   (let f ((chars (string->list s))
-          (quote? #f)
           (col (if (null? columns)
                 0
                 (car columns)))
@@ -80,24 +79,28 @@
     cols
     (case (car chars)
      ((#\()
-      (f (cdr chars) quote? (+ 1 col) (cons (+ 1 col) cols)))
+      (f (cdr chars) (+ 1 col) (cons (+ 1 col) cols)))
      ((#\))
-      (f (cdr chars) quote? (+ 1 col) (if (null? cols)
-                                       cols
-                                       (cdr cols))))
+      (f (cdr chars) (+ 1 col) (if (null? cols)
+                                cols
+                                (cdr cols))))
      ; doesn't handle character names
      ; or regex
      ((#\#)
       (if (eqv? #\\ (cadr chars))
-       (f (cdddr chars) quote? (+ 3 col) cols)
-       (f (cdr chars) quote? (+ 1 col) cols)))
+       (f (cdddr chars) (+ 3 col) cols)
+       (f (cdr chars) (+ 1 col) cols)))
      ((#\")
-      (f (cdr chars) (not quote?) (+ 1 col) cols))
+      (let-values (((chars col) (quotation (cdr chars) (+ 1 col))))
+       (f (cdr chars) (+ 1 col) cols)))
      ((#\;)
-      (if (not quote?)
-       cols
-       (f (cdr chars) quote? (+ 1 col) cols)))
+      cols)
      (else
-      (f (cdr chars) quote? (+ 1 col) cols)))))))
+      (f (cdr chars) (+ 1 col) cols)))))))
 
-
+(define quotation
+ (lambda (chars col)
+  (if (or (null? chars)
+       (eqv? #\" (car chars)))
+   (values chars col)
+   (quotation (cdr chars) (+ 1 col)))))
