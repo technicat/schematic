@@ -26,8 +26,8 @@
     (if v (print #"Found ~(length matches) total links"))
     (let ((unique (delete-duplicates matches)))
      (print #"Found ~(length unique) unique links")
-     (if c
       (let ((good (check-urls unique)))
+     (if c
        (check-connections good))))))))
 
 
