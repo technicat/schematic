@@ -84,8 +84,6 @@
       (f (cdr chars) (+ 1 col) (if (null? cols)
                                 cols
                                 (cdr cols))))
-     ; doesn't handle character names
-     ; or regex
      ((#\#)
       (let-values (((chars col) (hash (cdr chars) (+ 1 col))))
        (f (cdr chars) (+ 1 col) cols)))
@@ -102,12 +100,14 @@
   (if (null? chars)
     (values chars col)
     (case (car chars)
+      ; todo - regex
      ((#\\) ; char
       (character))
       (else 
       (values (cdr chars) (+ 1 col)))))))
 
 ; skip to end of char
+; todo - character names
 (define character
  (lambda (chars col)
   (if (null? chars)
