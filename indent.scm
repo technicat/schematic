@@ -86,10 +86,10 @@
                                 (cdr cols))))
      ((#\#)
       (let-values (((chars col) (hash (cdr chars) (+ 1 col))))
-       (f (cdr chars) (+ 1 col) cols)))
+       (f chars col cols)))
      ((#\")
       (let-values (((chars col) (quotation (cdr chars) (+ 1 col))))
-       (f (cdr chars) (+ 1 col) cols)))
+       (f chars col cols)))
      ((#\;)
       cols)
      (else
@@ -98,26 +98,27 @@
 (define hash
  (lambda (chars col)
   (if (null? chars)
-    (values chars col)
-    (case (car chars)
-      ; todo - regex
-     ((#\\) ; char
-      (character))
-      (else 
-      (values (cdr chars) (+ 1 col)))))))
+   (values chars col)
+   (case (car chars)
+    ; todo - regex
+    ((#\\) ; char
+     (character (cdr chars) (+ 1 col)))
+    (else
+     (values chars col))))))
 
 ; skip to end of char
 ; todo - character names
 (define character
  (lambda (chars col)
   (if (null? chars)
-    (values chars col)
-   (values (cdr chars) (+ 1col)))))
+   (values chars col)
+   (values (cdr chars) (+ 1 col)))))
 
 ; skip to end of quote
 (define quotation
  (lambda (chars col)
-  (if (or (null? chars)
-       (eqv? #\" (car chars)))
+  (if (null? chars)
    (values chars col)
-   (quotation (cdr chars) (+ 1 col)))))
+   (if (eqv? #\" (car chars))
+    (values (cdr chars) (+ 1 col))
+    (quotation (cdr chars) (+ 1 col))))))
