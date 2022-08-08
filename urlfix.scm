@@ -54,8 +54,8 @@
 
 (define fix-fold
  (lambda (line count out)
-  (let ((match (rxmatch 
-                #/\.(((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/ 
+  (let ((match (rxmatch
+                #/\.(((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/
                 line)))
    (if (not match)
     (begin
@@ -63,10 +63,10 @@
      (newline out)
      count)
     (let ((new (string-append (match 'before 1) (match 1) "/" (match 'after 1))))
-      (print new)
-      (write-string new out)
-       (newline out)
-       (+ 1 count))))))
+     (print new)
+     (write-string new out)
+     (newline out)
+     (+ 1 count))))))
 
 
 
