@@ -33,9 +33,10 @@
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
-    (if (indent-file file)
-     (+ 1 result)
-     result))
+    (let ((stat (sys-stat file)))
+     (if (indent-file file)
+      (+ 1 result)
+      result)))
    0
    :lister
    (lambda (dir seed)
