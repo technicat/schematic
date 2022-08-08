@@ -33,9 +33,11 @@
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
-    (let ((stat (sys-stat file)))
+    (let ((perm (slot-ref (sys-stat file) 'perm)))
      (if (indent-file file)
-      (+ 1 result)
+      (begin
+       (sys-chmod file perm)
+       (+ 1 result))
       result)))
    0
    :lister
