@@ -87,8 +87,7 @@
      ; doesn't handle character names
      ; or regex
      ((#\#)
-      (if (eqv? #\\ (cadr chars))
-       (f (cdddr chars) (+ 3 col) cols)
+      (let-values (((chars col) (hash (cdr chars) (+ 1 col))))
        (f (cdr chars) (+ 1 col) cols)))
      ((#\")
       (let-values (((chars col) (quotation (cdr chars) (+ 1 col))))
@@ -98,6 +97,24 @@
      (else
       (f (cdr chars) (+ 1 col) cols)))))))
 
+(define hash
+ (lambda (chars col)
+  (if (null? chars)
+    (values chars col)
+    (case (car chars)
+     ((#\\) ; char
+      (character))
+      (else 
+      (values (cdr chars) (+ 1 col)))))))
+
+; skip to end of char
+(define character
+ (lambda (chars col)
+  (if (null? chars)
+    (values chars col)
+   (values (cdr chars) (+ 1col)))))
+
+; skip to end of quote
 (define quotation
  (lambda (chars col)
   (if (or (null? chars)
