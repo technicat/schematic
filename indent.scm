@@ -100,9 +100,10 @@
   (if (null? chars)
    (values chars col)
    (case (car chars)
-    ; todo - regex
     ((#\\) ; char
      (character (cdr chars) (+ 1 col)))
+    ((#\/) ; regexp
+     (regexp (cdr chars) (+ 1 col)))
     (else
      (values chars col))))))
 
@@ -120,5 +121,14 @@
   (if (null? chars)
    (values chars col)
    (if (eqv? #\" (car chars))
+    (values (cdr chars) (+ 1 col))
+    (quotation (cdr chars) (+ 1 col))))))
+
+; skip to end of regexp
+(define regexp
+ (lambda (chars col)
+  (if (null? chars)
+   (values chars col)
+   (if (eqv? #\/ (car chars))
     (values (cdr chars) (+ 1 col))
     (quotation (cdr chars) (+ 1 col))))))
