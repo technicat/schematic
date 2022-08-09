@@ -128,7 +128,6 @@
      (let-values (((chars col)
                    (escape (cdr chars) (+ 1 col))))
       (quotation chars col)))
-    ; todo - check for escaped quote
     ((#\")
      (values (cdr chars) (+ 1 col)))
     (else
