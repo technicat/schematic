@@ -104,15 +104,15 @@
    (values chars col)
    (case (car chars)
     ((#\\) ; char
-     (character (cdr chars) (+ 1 col)))
+     (escape (cdr chars) (+ 1 col)))
     ((#\/) ; regexp
      (regexp (cdr chars) (+ 1 col)))
     (else
      (values chars col))))))
 
-; skip to end of char
+; skip to end of escape
 ; todo - character names
-(define character
+(define escape
  (lambda (chars col)
   (if (null? chars)
    (values chars col)
@@ -123,15 +123,23 @@
  (lambda (chars col)
   (if (null? chars)
    (values chars col)
-   (if (eqv? #\" (car chars))
-    (values (cdr chars) (+ 1 col))
-    (quotation (cdr chars) (+ 1 col))))))
+   (case (car chars)
+    ((#\\) ; char
+     (let-values (((chars col)
+                   (escape (cdr chars) (+ 1 col))))
+      (quotation chars col)))
+    ; todo - check for escaped quote
+    ((#\")
+     (values (cdr chars) (+ 1 col)))
+    (else
+     (quotation (cdr chars) (+ 1 col)))))))
 
 ; skip to end of regexp
 (define regexp
  (lambda (chars col)
   (if (null? chars)
    (values chars col)
+   ; todo - check for escaped slash
    (if (eqv? #\/ (car chars))
     (values (cdr chars) (+ 1 col))
     (quotation (cdr chars) (+ 1 col))))))
