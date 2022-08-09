@@ -26,9 +26,9 @@
     (if v (print #"Found ~(length matches) total links"))
     (let ((unique (delete-duplicates matches)))
      (print #"Found ~(length unique) unique links")
-     (let ((good (check-urls unique)))
-      (if c
-       (check-connections good))))))))
+     (report-bad-urls unique)
+     (if c
+      (check-connections (filter check-url unique))))))))
 
 
 (define help
@@ -37,12 +37,12 @@
   (dir-help)
   ))
 
-(define check-urls
+(define report-bad-urls
  (lambda (unique)
   (let ((noturl (remove check-url unique)))
    (print #"Found ~(length noturl) obviously bad links")
    (print (string-join noturl "\n")))
-  (remove (lambda (link) (not (check-url link))) unique)))
+  ))
 
 (define check-connections
  (lambda (unique)
