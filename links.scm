@@ -44,12 +44,6 @@
    (print (string-join noturl "\n")))
   ))
 
-(define check-connections
- (lambda (unique)
-  (let ((invalid (remove check-connection unique)))
-   (print #"Failed ~(length invalid) links")
-   (print (string-join invalid "\n")))))
-
 (define check-url
  (lambda (link)
   (let ((host (uri-ref link 'host))
@@ -57,23 +51,29 @@
    (if (not host)
     (print #"Missing host in ~link"))
    (if (not path)
-      ; this should be more of a warning
+    ; this should be more of a warning
     (print #"Missing path in ~link - try adding an ending / to the host"))
    (and host path))))
+
+(define check-connections
+ (lambda (unique)
+  (let ((invalid (remove check-connection unique)))
+   (print #"Failed ~(length invalid) links")
+   (print (string-join invalid "\n")))))
 
 (define check-connection
  (lambda (link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
-      (print #"Connecting to host: ~host path: ~path")
-     (guard (e (else (print #"Could not validate ~link")
-                (print (condition-message e))
-                #f))
-      (let-values (((result headers body)
-                    (http-get host (or path "/"))))
-       (or (equal? result "200") ; OK
-        (equal? result "308") ; redirect - todo, report this
-        ))))))
+   (print #"Connecting to host: ~host path: ~path")
+   (guard (e (else (print #"Could not validate ~link")
+              (print (condition-message e))
+              #f))
+    (let-values (((result headers body)
+                  (http-get host (or path "/"))))
+     (or (equal? result "200") ; OK
+      (equal? result "308") ; redirect - todo, report this
+      ))))))
 
 ; place this here at the end to avoid confusing my indenter
 
