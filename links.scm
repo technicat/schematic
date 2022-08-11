@@ -57,6 +57,7 @@
    (if (not host)
     (print #"Missing host in ~link"))
    (if (not path)
+      ; this should be more of a warning
     (print #"Missing path in ~link - try adding an ending / to the host"))
    (and host path))))
 
@@ -64,26 +65,22 @@
  (lambda (link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
-   (if (not path)
-    (begin
-     (print #"Missing path in ~link - try adding an ending / to the host")
-     #f)
-    (begin
-     ; todo - verbose
-     (print #"Connecting to host: ~host path: ~path")
      (guard (e (else (print #"Could not validate ~link")
                 (print (condition-message e))
                 #f))
       (let-values (((result headers body)
-                    (http-get host path)))
+                    (http-get host (or path "/"))))
        (or (equal? result "200") ; OK
         (equal? result "308") ; redirect - todo, report this
-        ))))))))
+        ))))))
 
 ; place this here at the end to avoid confusing my indenter
 
 ; https://urlregex.com/
 ; doesn't handle parentheses
+; only care about http(s)
+; should have a lax version that captures improper ones e.g. with non-ASCII
+; so we can report and fix
 (define urlre
  #/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
  )
