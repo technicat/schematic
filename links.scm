@@ -51,7 +51,7 @@
    (if (not host)
     (print #"Missing host in ~link"))
    (if (not path)
-    ; this should be more of a warning
+    ; this should be more of a warning, it's OK in the RFC
     (print #"Missing path in ~link - try adding an ending / to the host"))
    (and host path))))
 
@@ -70,7 +70,8 @@
               (print (condition-message e))
               #f))
     (let-values (((result headers body)
-                  (http-get host (or path "/"))))
+                  (http-get host (or path "/")))) ; http-get doesn't like #f path
+     ; should return http codes so we can display them
      (or (equal? result "200") ; OK
       (equal? result "308") ; redirect - todo, report this
       ))))))
