@@ -65,6 +65,7 @@
  (lambda (link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
+      (print #"Connecting to host: ~host path: ~path")
      (guard (e (else (print #"Could not validate ~link")
                 (print (condition-message e))
                 #f))
