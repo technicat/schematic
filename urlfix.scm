@@ -26,14 +26,12 @@
                  :type t :dot-files d :verbose v))))
     (print #"Fixed ~urls urls")))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Replace text in file or current directory (and below).")
   (dir-help)
-  ))
+  )
 
-(define fix-dir
- (lambda (path :rest args)
+(define (fix-dir path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
@@ -42,18 +40,16 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
 
-(define fix-file
- (lambda (file)
+(define (fix-file file)
   (guard (e (else
              (print #"Error processing ~file")
              (print (condition-message e))
              0))
-   (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t))))
+   (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t)))
 
-(define fix-fold
- (lambda (line count out)
+(define (fix-fold line count out)
   (let ((match (rxmatch
                 #/\.(((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/
                 line)))

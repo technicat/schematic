@@ -21,15 +21,13 @@
     (let ((count (sexp-dir (current-directory) :type t :dot-files d :verbose v)))
      (print #"Checked ~count files"))))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Validate s expressions in file or current directory (and below).")
   (dir-help)
-  ))
+  )
 
 ; todo - should return json results
-(define sexp-dir
- (lambda (path :rest args)
+(define (sexp-dir path :rest args)
   (apply dir-info path args)
   (print #"checking all files in ~path")
   (directory-fold path
@@ -40,21 +38,19 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
 
-(define sexp-file
- (lambda (file)
+(define (sexp-file file)
   (guard (e (else (print #"error in ~file")
              (print (condition-message e))
              #\f))
    (let ((exp (call-with-input-file file sexp-input)))
-    exp))))
+    exp)))
 
 
-(define sexp-input
- (lambda (p)
+(define (sexp-input p)
   (let ((x (read p)))
    (if (eof-object? x)
     '()
-    x))))
+    x)))
 

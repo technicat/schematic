@@ -21,15 +21,13 @@
             :type t :dot-files d :verbose v))))
     (print #"~count bytes")))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Size of file or files in current directory (and below).")
   (print "-f : specify file")
   (dir-help)
-  ))
+  )
 
-(define size-directory
- (lambda (path :rest args)
+(define (size-directory path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
@@ -39,4 +37,4 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
