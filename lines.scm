@@ -22,33 +22,33 @@
     (print #"Found ~count lines")))))
 
 (define (help file)
-  (print "Count number lines in file or current directory (and below).")
-  (dir-help)
-  )
+ (print "Count number lines in file or current directory (and below).")
+ (dir-help)
+ )
 
 (define (count-directory path :rest args)
-  (apply dir-info path args)
-  (directory-fold path
-   (lambda (file result)
-    (+ result
-     (count-file file)))
-   0
-   :lister
-   (lambda (dir seed)
-    (values (apply filter-dir dir args)
-     seed))))
+ (apply dir-info path args)
+ (directory-fold path
+  (lambda (file result)
+   (+ result
+    (count-file file)))
+  0
+  :lister
+  (lambda (dir seed)
+   (values (apply filter-dir dir args)
+    seed))))
 
 (define (count-file file)
-  (guard (e (else
-             (print #"Error processing ~file")
-             (print (condition-message e))
-             0)) ; bail out of binary
-   (call-with-input-file file count-input)
-   ))
+ (guard (e (else
+            (print #"Error processing ~file")
+            (print (condition-message e))
+            0)) ; bail out of binary
+  (call-with-input-file file count-input)
+  ))
 
 (define (count-input p)
-  (let f ((total 0))
-   (guard (e (else total)) ; bail out of binary
-    (if (eof-object? (read-line p))
-     total
-     (f (+ 1 total))))))
+ (let f ((total 0))
+  (guard (e (else total)) ; bail out of binary
+   (if (eof-object? (read-line p))
+    total
+    (f (+ 1 total))))))

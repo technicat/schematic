@@ -22,9 +22,8 @@
            (rx-dir (current-directory) r :type t :verbose v))))
     (print #"Found ~(length matches) matches")))))
 
-(define help
- (lambda (file)
-  (print "Search for regexp in file or in current directory (and below).")
-  (dir-help)
-  ))
+(define (help file)
+ (print "Search for regexp in file or in current directory (and below).")
+ (dir-help)
+ )
 
