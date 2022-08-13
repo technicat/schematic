@@ -1,3 +1,4 @@
+; support functions for searching regex
 
 (define (rx-dir path re :key (type #f) (dot-files #f) (verbose #f))
  (dir-info path :type type :dot-files dot-files :verbose verbose)
@@ -13,7 +14,7 @@
             :type type :dot-files dot-files :verbose verbose)
     seed))))
 
-(define (rx-file file re :key (verbose #f)
+(define (rx-file file re :key (verbose #f))
          (if verbose (print #"Searching ~file"))
          (guard (e (else
                     (print #"Error processing ~file")
@@ -21,10 +22,10 @@
                     '()))
           (call-with-input-file file
            (lambda (p)
-            (rx-input p re :verbose verbose))))))
+            (rx-input p re :verbose verbose)))))
 
 
-(define (rx-input p re :key (verbose #f)
+(define (rx-input p re :key (verbose #f))
          (let f ((matches '()) (linenum 1))
           (let ((line (read-line p)))
            (if (eof-object? line)
@@ -37,4 +38,4 @@
                 ; (print #"line ~linenum : ~match")
                 )
                (f (cons match matches) (+ 1 linenum)))
-              (f matches (+ 1 linenum)))))))))
+              (f matches (+ 1 linenum))))))))
