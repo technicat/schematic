@@ -1,6 +1,5 @@
 
-(define rx-dir
- (lambda (path re :key (type #f) (dot-files #f) (verbose #f))
+(define (rx-dir path re :key (type #f) (dot-files #f) (verbose #f))
   (dir-info path :type type :dot-files dot-files :verbose verbose)
   (directory-fold path
    (lambda (file result)
@@ -12,10 +11,9 @@
    (lambda (dir seed)
     (values (filter-dir dir
              :type type :dot-files dot-files :verbose verbose)
-     seed)))))
+     seed))))
 
-(define rx-file
- (lambda (file re :key (verbose #f))
+(define (rx-file file re :key (verbose #f)
   (if verbose (print #"Searching ~file"))
   (guard (e (else
              (print #"Error processing ~file")
@@ -26,8 +24,7 @@
      (rx-input p re :verbose verbose))))))
 
 
-(define rx-input
- (lambda (p re :key (verbose #f))
+(define (rx-input p re :key (verbose #f)
   (let f ((matches '()) (linenum 1))
    (let ((line (read-line p)))
     (if (eof-object? line)
