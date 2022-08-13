@@ -27,42 +27,42 @@
     (print #"Fixed ~urls urls")))))
 
 (define (help file)
-  (print "Replace text in file or current directory (and below).")
-  (dir-help)
-  )
+ (print "Replace text in file or current directory (and below).")
+ (dir-help)
+ )
 
 (define (fix-dir path :rest args)
-  (apply dir-info path args)
-  (directory-fold path
-   (lambda (file result)
-    (+ result (fix-file file)))
-   0
-   :lister
-   (lambda (dir seed)
-    (values (apply filter-dir dir args)
-     seed))))
+ (apply dir-info path args)
+ (directory-fold path
+  (lambda (file result)
+   (+ result (fix-file file)))
+  0
+  :lister
+  (lambda (dir seed)
+   (values (apply filter-dir dir args)
+    seed))))
 
 (define (fix-file file)
-  (guard (e (else
-             (print #"Error processing ~file")
-             (print (condition-message e))
-             0))
-   (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t)))
+ (guard (e (else
+            (print #"Error processing ~file")
+            (print (condition-message e))
+            0))
+  (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t)))
 
 (define (fix-fold line count out)
-  (let ((match (rxmatch
-                #/\.(((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/
-                line)))
-   (if (not match)
-    (begin
-     (write-string line out)
-     (newline out)
-     count)
-    (let ((new (string-append (match 'before 1) (match 1) "/" (match 'after 1))))
-     (print new)
-     (write-string new out)
-     (newline out)
-     (+ 1 count))))))
+ (let ((match (rxmatch
+               #/\.(((ar)|(at)|(au)|(be)|(ca)|(cl)|(com)|(de)|(dk)|(es)|(fr)|(hk)|(id)|(ie)|(it)|(jp)|(kh)|(kr)|(mo)|(mu)|(mx)|(my)|(nl)|(no)|(nz)|(ph)|(pl)|(pt)|(se)|(sg)|(th)|(tt)|(tw)|(ua)|(uk)|(vn)))"/
+               line)))
+  (if (not match)
+   (begin
+    (write-string line out)
+    (newline out)
+    count)
+   (let ((new (string-append (match 'before 1) (match 1) "/" (match 'after 1))))
+    (print new)
+    (write-string new out)
+    (newline out)
+    (+ 1 count))))))
 
 
 

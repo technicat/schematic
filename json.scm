@@ -10,6 +10,7 @@
   ((h "h|help" => (cut help (car args)))
    (d "d|dot-files")
    (f "f|file=s")
+   (r "r|replace")
    (t "t|type=s" "json")
    (v "v|verbose")
    . restargs

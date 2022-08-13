@@ -22,19 +22,19 @@
     (print #"~count bytes")))))
 
 (define (help file)
-  (print "Size of file or files in current directory (and below).")
-  (print "-f : specify file")
-  (dir-help)
-  )
+ (print "Size of file or files in current directory (and below).")
+ (print "-f : specify file")
+ (dir-help)
+ )
 
 (define (size-directory path :rest args)
-  (apply dir-info path args)
-  (directory-fold path
-   (lambda (file result)
-    (+ result
-     (file-size file)))
-   0
-   :lister
-   (lambda (dir seed)
-    (values (apply filter-dir dir args)
-     seed))))
+ (apply dir-info path args)
+ (directory-fold path
+  (lambda (file result)
+   (+ result
+    (file-size file)))
+  0
+  :lister
+  (lambda (dir seed)
+   (values (apply filter-dir dir args)
+    seed))))
