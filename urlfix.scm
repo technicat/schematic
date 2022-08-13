@@ -62,7 +62,7 @@
     (print new)
     (write-string new out)
     (newline out)
-    (+ 1 count))))))
+    (+ 1 count)))))
 
 
 
