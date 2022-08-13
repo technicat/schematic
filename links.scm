@@ -37,15 +37,13 @@
   (dir-help)
   ))
 
-(define report-bad-urls
- (lambda (unique)
+(define (report-bad-urls unique)
   (let ((noturl (remove check-url unique)))
    (print #"Found ~(length noturl) obviously bad links")
    (print (string-join noturl "\n")))
-  ))
+  )
 
-(define check-url
- (lambda (link)
+(define (check-url link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
    (if (not host)
@@ -53,16 +51,14 @@
    (if (not path)
     ; this should be more of a warning, it's OK in the RFC
     (print #"Missing path in ~link - try adding an ending / to the host"))
-   (and host path))))
+   (and host path)))
 
-(define check-connections
- (lambda (unique)
+(define (check-connections unique)
   (let ((invalid (remove check-connection unique)))
    (print #"Failed ~(length invalid) links")
-   (print (string-join invalid "\n")))))
+   (print (string-join invalid "\n"))))
 
-(define check-connection
- (lambda (link)
+(define (check-connection link)
   (let ((host (uri-ref link 'host))
         (path (uri-ref link 'path)))
    (print #"Connecting to host: ~host path: ~path")
@@ -74,7 +70,7 @@
      ; should return http codes so we can display them
      (or (equal? result "200") ; OK
       (equal? result "308") ; redirect - todo, report this
-      ))))))
+      )))))
 
 ; place this here at the end to avoid confusing my indenter
 
