@@ -32,6 +32,7 @@
  (apply dir-info path args)
  (directory-fold path
   (lambda (file result)
+   ; this should be a macro, for use with every file filter
    (let ((perm (slot-ref (sys-stat file) 'perm)))
     (if (indent-file file)
      (begin
