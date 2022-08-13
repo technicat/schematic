@@ -47,7 +47,10 @@
             (print #"Error processing ~file")
             (print (condition-message e))
             0))
-  (file-filter-fold fix-fold 0 :input file :output file :temporary-file #t)))
+  (file-filter-fold fix-fold 0
+   :input file :output file
+   :temporary-file #t
+   :leave-unchanged #t)))
 
 (define (fix-fold line count out)
  (let ((match (rxmatch

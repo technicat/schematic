@@ -49,7 +49,11 @@
             (print #"Error processing ~file")
             (print (condition-message e))
             #f))
-  (file-filter-fold indent-fold '() :input file :output file :temporary-file #t)))
+  (file-filter-fold indent-fold '()
+   :input file
+   :output file
+   :temporary-file #t
+   :leave-unchanged #t)))
 
 (define (indent-fold line columns out)
  (let ((new (string-trim-both line)))
