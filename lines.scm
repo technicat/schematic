@@ -21,14 +21,12 @@
             :type t :dot-files d :verbose v))))
     (print #"Found ~count lines")))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Count number lines in file or current directory (and below).")
   (dir-help)
-  ))
+  )
 
-(define count-directory
- (lambda (path :rest args)
+(define (count-directory path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
@@ -38,21 +36,19 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
 
-(define count-file
- (lambda (file)
+(define (count-file file)
   (guard (e (else
              (print #"Error processing ~file")
              (print (condition-message e))
              0)) ; bail out of binary
    (call-with-input-file file count-input)
-   )))
+   ))
 
-(define count-input
- (lambda (p)
+(define (count-input p)
   (let f ((total 0))
    (guard (e (else total)) ; bail out of binary
     (if (eof-object? (read-line p))
      total
-     (f (+ 1 total)))))))
+     (f (+ 1 total))))))
