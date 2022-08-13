@@ -49,5 +49,6 @@
              #\f))
    (let ((exp (call-with-input-file file parse-json)))
     ;  (if verbose (print exp))
+    ; todo - option to write file back out
     exp))))
 
