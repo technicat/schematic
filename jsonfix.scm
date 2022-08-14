@@ -47,6 +47,8 @@
   :temporary-file #t
   :leave-unchanged #t))
 
+; just writes json back out, but without whitespace
+; format? fix urls?
 (define (json-filter in out)
  (let f ((objs (parse-json* in)))
   (if (not (null? objs))
