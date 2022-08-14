@@ -17,8 +17,7 @@
    (f "f|file=s")
    (t "t|type=s")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((urls (if f
                 (fix-file f)
@@ -28,8 +27,7 @@
 
 (define (help file)
  (print "Replace text in file or current directory (and below).")
- (dir-help)
- )
+ (dir-help))
 
 (define (fix-dir path :rest args)
  (apply dir-info path args)

@@ -7,11 +7,10 @@
  (print "-h : show this doc")
  (print "-d : process dot (hidden) files")
  (print "-t : file extension to filter for, e.g. scm, json...")
- (print "-v : print progress")
- )
+ (print "-v : print progress"))
 
 (define (dir-info path :key (type #f) (dot-files #f) (verbose #f))
- (print #"checking all files in ~path")
+ (print #"checking files in ~path")
  (if type
   (print #"with extension ~type"))
  (if dot-files

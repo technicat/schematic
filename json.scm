@@ -21,17 +21,13 @@
     (let ((count (json-dir (current-directory) :type t :dot-files d :verbose v)))
      (print #"Checked ~count JSON files"))))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Validate JSON in file or current directory (and below).")
-  (dir-help)
-  ))
+  (dir-help))
 
-; todo - should return json results
 (define json-dir
  (lambda (path :rest args)
   (apply dir-info path args)
-  (print #"checking all files in ~path")
   (directory-fold path
    (lambda (file result)
     (json-file file)

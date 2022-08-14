@@ -13,8 +13,7 @@
    (t "t|type=s")
    (r "r|regexp=s")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((matches
           (if f
@@ -24,6 +23,5 @@
 
 (define (help file)
  (print "Search for regexp in file or in current directory (and below).")
- (dir-help)
- )
+ (dir-help))
 

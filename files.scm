@@ -10,22 +10,18 @@
    (d "d|dot-files")
    (v "v|verbose")
    (t "t|type=s")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((count
           (count-directory (current-directory)
            :type t :dot-files d :verbose v)))
     (print #"Found ~count files")))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Count number of files in current directory (and below).")
-  (dir-help)
-  ))
+  (dir-help))
 
-(define count-directory
- (lambda (path :rest args)
+(define (count-directory path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
@@ -34,6 +30,6 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
 
 

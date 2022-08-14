@@ -13,8 +13,7 @@
    (f "f|file=s")
    (t "t|type=s" "scm")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (if f
     (json-file f p)
@@ -23,13 +22,11 @@
 
 (define (help file)
  (print "Validate s expressions in file or current directory (and below).")
- (dir-help)
- )
+ (dir-help))
 
 ; todo - should return json results
 (define (sexp-dir path :rest args)
  (apply dir-info path args)
- (print #"checking all files in ~path")
  (directory-fold path
   (lambda (file result)
    (sexp-file file)

@@ -13,8 +13,7 @@
    (f "f|file=s")
    (t "t|type=s" "scm")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (if f
     (indent-file f)
@@ -22,11 +21,9 @@
                   :type t :dot-files d :verbose v)))
      (print #"Indented ~files files"))))))
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Indent lines in file or current directory (and below).")
-  (dir-help)
-  ))
+  (dir-help))
 
 (define (indent-dir path :rest args)
  (apply dir-info path args)

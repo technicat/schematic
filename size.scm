@@ -11,8 +11,7 @@
    (f "f|file=s")
    (t "t|type=s")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((count
           (if f
@@ -24,8 +23,7 @@
 (define (help file)
  (print "Size of file or files in current directory (and below).")
  (print "-f : specify file")
- (dir-help)
- )
+ (dir-help))
 
 (define (size-directory path :rest args)
  (apply dir-info path args)
