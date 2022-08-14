@@ -22,8 +22,8 @@
      (print #"Checked ~count JSON files"))))))
 
 (define (help file)
-  (print "Validate JSON in file or current directory (and below).")
-  (dir-help))
+ (print "Validate JSON in file or current directory (and below).")
+ (dir-help))
 
 (define json-dir
  (lambda (path :rest args)
@@ -31,10 +31,10 @@
   (directory-fold path
    (lambda (file result)
     (guard (e (else (print #"JSON error in ~file")
-             (print (condition-message e))
-             result))
+               (print (condition-message e))
+               result))
      (call-with-input-file file parse-json*)
-    (+ 1 result)))
+     (+ 1 result)))
    0
    :lister
    (lambda (dir seed)

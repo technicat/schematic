@@ -18,18 +18,18 @@
     (print #"Found ~count files")))))
 
 (define (help file)
-  (print "Count number of files in current directory (and below).")
-  (dir-help))
+ (print "Count number of files in current directory (and below).")
+ (dir-help))
 
 (define (count-directory path :rest args)
-  (apply dir-info path args)
-  (directory-fold path
-   (lambda (file result)
-    (+ result 1))
-   0
-   :lister
-   (lambda (dir seed)
-    (values (apply filter-dir dir args)
-     seed))))
+ (apply dir-info path args)
+ (directory-fold path
+  (lambda (file result)
+   (+ result 1))
+  0
+  :lister
+  (lambda (dir seed)
+   (values (apply filter-dir dir args)
+    seed))))
 
 

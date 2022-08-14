@@ -22,8 +22,8 @@
      (print #"Indented ~files files"))))))
 
 (define (help file)
-  (print "Indent lines in file or current directory (and below).")
-  (dir-help))
+ (print "Indent lines in file or current directory (and below).")
+ (dir-help))
 
 (define (indent-dir path :rest args)
  (apply dir-info path args)

@@ -21,8 +21,8 @@
      (print #"Checked ~count JSON files"))))))
 
 (define (help file)
-  (print "Validate JSON in file or current directory (and below).")
-  (dir-help))
+ (print "Validate JSON in file or current directory (and below).")
+ (dir-help))
 
 ; todo - should return json results
 (define json-dir
