@@ -79,6 +79,7 @@
   (if (null? chars)
    cols
    (case (car chars)
+    ;todo - handle brackets
     ((#\()
      (f (cdr chars) (+ 1 col) (cons (+ 1 col) cols)))
     ((#\))
