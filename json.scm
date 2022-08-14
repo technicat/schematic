@@ -25,8 +25,7 @@
  (print "Validate JSON in file or current directory (and below).")
  (dir-help))
 
-(define json-dir
- (lambda (path :rest args)
+(define (json-dir path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
@@ -39,5 +38,5 @@
    :lister
    (lambda (dir seed)
     (values (apply filter-dir dir args)
-     seed)))))
+     seed))))
 

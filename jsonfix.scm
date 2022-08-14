@@ -1,6 +1,7 @@
 #!/usr/local/bin/gosh
 
 (use gauche.parseopt)
+(use file.filter)
 (use rfc.json)
 
 (include "lib/dir.scm")
@@ -24,8 +25,7 @@
  (dir-help))
 
 ; todo - should return json results
-(define json-dir
- (lambda (path :rest args)
+(define (json-dir path :rest args)
   (apply dir-info path args)
   (directory-fold path
    (lambda (file result)
