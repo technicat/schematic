@@ -26,17 +26,17 @@
  (dir-help))
 
 (define (json-dir path :rest args)
-  (apply dir-info path args)
-  (directory-fold path
-   (lambda (file result)
-    (guard (e (else (print #"JSON error in ~file")
-               (print (condition-message e))
-               result))
-     (call-with-input-file file parse-json*)
-     (+ 1 result)))
-   0
-   :lister
-   (lambda (dir seed)
-    (values (apply filter-dir dir args)
-     seed))))
+ (apply dir-info path args)
+ (directory-fold path
+  (lambda (file result)
+   (guard (e (else (print #"JSON error in ~file")
+              (print (condition-message e))
+              result))
+    (call-with-input-file file parse-json*)
+    (+ 1 result)))
+  0
+  :lister
+  (lambda (dir seed)
+   (values (apply filter-dir dir args)
+    seed))))
 
