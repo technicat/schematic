@@ -15,8 +15,7 @@
    (f "f|file=s")
    (t "t|type=s")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((matches
           (if f
@@ -31,17 +30,14 @@
       (check-connections (filter check-url unique))))))))
 
 
-(define help
- (lambda (file)
+(define (help file)
   (print "Search/check URLs in file or in current directory (and below).")
-  (dir-help)
-  ))
+  (dir-help))
 
 (define (report-bad-urls unique)
  (let ((noturl (remove check-url unique)))
   (print #"Found ~(length noturl) obviously bad links")
-  (print (string-join noturl "\n")))
- )
+  (print (string-join noturl "\n"))))
 
 (define (check-url link)
  (let ((host (uri-ref link 'host))
