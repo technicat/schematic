@@ -29,8 +29,7 @@
                   (file-is-regular? file)
                   (not (equal? ext type))))))
    (if (and verbose ignore)
-    (print #"Ignoring ~file")
-    )
+    (print #"Ignoring ~file"))
    ignore)))
 
 (define (filter-dir dir :rest args)
