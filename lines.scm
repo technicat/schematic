@@ -11,8 +11,7 @@
    (f "f|file=s")
    (t "t|type=s")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (let ((count
           (if f
@@ -42,8 +41,7 @@
             (print #"Error processing ~file")
             (print (condition-message e))
             0)) ; bail out of binary
-  (call-with-input-file file count-input)
-  ))
+  (call-with-input-file file count-input)))
 
 (define (count-input p)
  (let f ((total 0))
