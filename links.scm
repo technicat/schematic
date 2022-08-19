@@ -68,7 +68,8 @@
    (let-values (((result headers body)
                  (http-get host (or path "/")))) ; http-get doesn't like #f path
     ; should return http codes so we can display them
-    (or (equal? result "200") ; OK
+    (or
+     (equal? result "200") ; OK
      (equal? result "308") ; redirect - todo, report this
      )))))
 
