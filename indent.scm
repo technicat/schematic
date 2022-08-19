@@ -65,7 +65,7 @@
      out)))
   (newline out)
   (if (or
-       (= (string-length new) 0)
+       (zero? (string-length new))
        (eq? (string-ref new 0) #\;))
    columns
    (new-columns new columns))))
