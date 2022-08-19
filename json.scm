@@ -12,8 +12,7 @@
    (f "f|file=s")
    (t "t|type=s" "json")
    (v "v|verbose")
-   . restargs
-   )
+   . restargs)
   (if (not h)
    (if f
     (let ((count (length (call-with-input-file f parse-json*))))
