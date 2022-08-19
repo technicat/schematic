@@ -23,8 +23,7 @@
 
 (define (help file)
  (print "Count number lines in file or current directory (and below).")
- (dir-help)
- )
+ (dir-help))
 
 (define (count-directory path :rest args)
  (apply dir-info path args)
