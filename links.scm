@@ -31,8 +31,8 @@
 
 
 (define (help file)
-  (print "Search/check URLs in file or in current directory (and below).")
-  (dir-help))
+ (print "Search/check URLs in file or in current directory (and below).")
+ (dir-help))
 
 (define (report-bad-urls unique)
  (let ((noturl (remove check-url unique)))
