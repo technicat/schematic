@@ -11,10 +11,7 @@
  (let-args (cdr args)
   ((f "f|file=s")
    . restargs)
-  (format-file f)))
-
-(define (format-file file)
- (call-with-input-file file format-input))
+  (call-with-input-file f format-input)))
 
 (define (format-input p)
  (let ((x (read p)))
