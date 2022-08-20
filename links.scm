@@ -65,8 +65,8 @@
                  (http-get host (or path "/")))) ; http-get doesn't like #f path
     ; should return http codes so we can display them
     (or
-     (equal? result "200") ; OK
-     (equal? result "308") ; redirect - todo, report this
+     (string=? result "200") ; OK
+     (string=? result "308") ; redirect - todo, report this
      )))))
 
 ; place this here at the end to avoid confusing my indenter

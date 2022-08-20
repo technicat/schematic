@@ -27,7 +27,7 @@
                  (and (not dot-files) (eq? (string-ref name 0) #\.))
                  (and type
                   (file-is-regular? file)
-                  (not (equal? ext type))))))
+                  (not (string=? ext type))))))
    (if (and verbose ignore)
     (print #"Ignoring ~file"))
    ignore)))
