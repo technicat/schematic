@@ -17,7 +17,8 @@
    (if f
     (let ((count (length (call-with-input-file f parse-json*))))
      (print #"Found ~count JSON objects"))
-    (let ((count (json-dir (current-directory) :type t :dot-files d :verbose v)))
+    (let ((count (json-dir (current-directory) 
+      :type t :dot-files d :verbose v)))
      (print #"Checked ~count JSON files"))))))
 
 (define (help file)

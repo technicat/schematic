@@ -25,7 +25,7 @@
  (let-values (((dir name ext) (decompose-path file)))
   (let ((ignore (or
                  (and (not dot-files) (eq? (string-ref name 0) #\.))
-                 (and type
+                 (and type ext
                   (file-is-regular? file)
                   (not (string=? ext type))))))
    (if (and verbose ignore)
