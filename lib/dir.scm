@@ -24,8 +24,8 @@
 (define (ignore-file? file :key (type #f) (dot-files #f) (verbose #f))
  (let-values (((dir name ext) (decompose-path file)))
   (let ((ignore (or
-                (and type (not ext))
-                 (and (not dot-files) (eq? (string-ref name 0) #\.))
+                 (and (not ext) (file-is-regular? file))
+                 (and (not dot-files) (eq? (string-ref name 0) #\.)) ; ignore dot files?
                  (and type
                   (file-is-regular? file)
                   (not (string=? ext type))))))
