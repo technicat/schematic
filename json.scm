@@ -15,8 +15,8 @@
    . restargs)
   (if (not h)
    (if f
-    (let ((count (length (call-with-input-file f parse-json*))))
-     (print #"Found ~count JSON objects"))
+    (let ((objs (call-with-input-file f parse-json*)))
+     (print #"Found ~(length objs) JSON objects"))
     (let ((count (json-dir (current-directory)
                   :type t :dot-files d :verbose v)))
      (print #"Checked ~count JSON files"))))))
