@@ -15,5 +15,3 @@
 (define (update-submodules)
  (sys-system #"git submodule update --remote --merge")
  )
-
-
