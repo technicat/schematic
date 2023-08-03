@@ -1,5 +1,3 @@
-#!/usr/local/bin/gosh
-
 ; json utils
 
 (use file.util)
@@ -12,3 +10,7 @@
   ; assume one json obj, otherwise use parse-json*
   (let ((exp (call-with-input-file file parse-json)))
    exp)))
+
+(define (write-json r file)
+ (call-with-output-file file
+  (lambda (out) (construct-json r out))))
