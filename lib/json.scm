@@ -17,6 +17,7 @@
 
 (define (res-value key r)
  (let ((b (find (lambda (item)
-                 (string=? (car item) key))
+                 (and (string? (car item))
+                  (string=? (car item) key)))
            r)))
   (and b (cdr b))))
