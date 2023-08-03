@@ -14,3 +14,9 @@
 (define (write-json r file)
  (call-with-output-file file
   (lambda (out) (construct-json r out))))
+
+(define (res-value key r)
+ (let ((b (find (lambda (item)
+                 (string=? (car item) key))
+           r)))
+  (and b (cdr b))))
