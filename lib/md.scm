@@ -47,3 +47,9 @@
     (embed-inline "project image" images out))
    images))
  (news out))
+
+(define (comma-vector v)
+ (comma-list (vector->list v)))
+
+(define (comma-list l)
+ (string-join l ", "))
