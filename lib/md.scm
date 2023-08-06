@@ -29,6 +29,14 @@
  (write-string #"- ~item" out)
  (newline out))
 
+; links
+
+ (define (linkstr name url)
+  #"[~name](~url)")
+
+(define (link name url out)
+  (write-string (linkstr name url) out))
+
 ; images
 
 (define (embed label image out)
@@ -38,7 +46,7 @@
 
 (define (embed-inline label image out)
  (newline out)
- (write-string #"![~label](~image)" out))
+ (write-string #"!~(linkstr label image)" out))
 
 (define (embed-images label images out)
  (if images
