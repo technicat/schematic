@@ -19,6 +19,11 @@
  (write-string #"### ~title" out)
  (newline out))
 
+(define (h4 title out)
+ (newline out)
+ (write-string #"#### ~title" out)
+ (newline out))
+
 (define (blockquote item out)
  (newline out)
  (write-string #"> ~item" out)
