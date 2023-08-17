@@ -36,11 +36,11 @@
 
 ; links
 
- (define (linkstr name url)
-  #"[~name](~url)")
+(define (linkstr name url)
+ #"[~name](~url)")
 
 (define (link name url out)
-  (write-string (linkstr name url) out))
+ (write-string (linkstr name url) out))
 
 ; images
 
