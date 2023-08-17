@@ -6,3 +6,7 @@
 (define (hugo-title title out)
  (write-string #"title: \"~title\"" out)
  (newline out))
+
+(define (hugo-date-none out)
+  (write-string #"showDate: false" out)
+  (newline out))
