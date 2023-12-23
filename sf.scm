@@ -5,10 +5,10 @@
 (define (main args)
  (let-args (cdr args)
   ((h "h|help" => (cut help))
-  (l "l|lint" => (cut lint))
-  (l "f|format" => (cut format))
+   (l "l|lint" => (cut lint))
+   (l "f|format" => (cut format))
    . restargs)
- ))
+  ))
 
 (define (help)
  (print "swift-format shortcuts"))
