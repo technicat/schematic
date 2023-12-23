@@ -4,12 +4,12 @@
 
 (define (main args)
  (let-args (cdr args)
-  ((h "h|help" => (cut help (car args)))
+  ((h "h|help" => (cut help))
    . restargs)
   (if (not h)
    (update-submodules))))
 
-(define (help file)
+(define (help)
  (print "git operations"))
 
 (define (update-submodules)
